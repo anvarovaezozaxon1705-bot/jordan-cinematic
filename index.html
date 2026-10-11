@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المملكة الأردنية الهاشمية</title>
+<meta name="description" content="المملكة الأردنية الهاشمية — عرض تفاعلي سينمائي">
+<meta name="theme-color" content="#0B0B0A">
+<meta property="og:title" content="المملكة الأردنية الهاشمية">
+<meta property="og:image" content="assets/img/s01.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0B0A'/%3E%3Cpath d='M32 10l5.5 11.5L50 18l-5 11.8L56 36l-12 3.2L46 52l-14-6-14 6 2-12.8L8 36l11-6.2L14 18l12.5 3.5z' fill='%23C9A66B'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/ReemKufi-var-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/img/s01.jpg" as="image">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- ====== واجهة التنقل ====== -->
+<div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
+
+<header class="hud" aria-label="شريط التنقل">
+  <a class="hud__mark" href="#s1" aria-label="البداية">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6l6.4 13.4L53 15.3l-5.8 13.8L60 36.2l-14 3.7L48.4 55 32 48 15.6 55 18 39.9 4 36.2l12.8-7.1L11 15.3l14.6 4.1z" fill="none" stroke="currentColor" stroke-width="2.4"/></svg>
+  </a>
+  <p class="hud__title" aria-live="polite"><span class="hud__num">٠١</span><span class="hud__sep"></span><span class="hud__name">المملكة الأردنية الهاشمية</span></p>
+  <div class="hud__tools">
+    <button class="btn-icon" type="button" data-action="index" aria-label="فهرس الشرائح" aria-expanded="false" aria-controls="index">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    </button>
+    <button class="btn-icon" type="button" data-action="fullscreen" aria-label="ملء الشاشة">
+      <svg class="i-enter" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      <svg class="i-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg>
+    </button>
+  </div>
+</header>
+
+<nav class="rail" aria-label="الشرائح">
+  <ol class="rail__list"></ol>
+</nav>
+
+<div class="pager" role="group" aria-label="التنقل بين الشرائح">
+  <button class="btn-icon" type="button" data-action="prev" aria-label="الشريحة السابقة">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+  <span class="pager__count" aria-hidden="true"><b class="pager__cur">٠١</b><i>/</i><span class="pager__total">١٩</span></span>
+  <button class="btn-icon" type="button" data-action="next" aria-label="الشريحة التالية">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </button>
+</div>
+
+<div class="index" id="index" role="dialog" aria-modal="true" aria-label="فهرس الشرائح" hidden>
+  <button class="btn-icon index__close" type="button" data-action="index-close" aria-label="إغلاق الفهرس">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <ol class="index__grid"></ol>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+
+<main id="film">
+
+<!-- ====== ١ — المملكة الأردنية الهاشمية ====== -->
+<section class="scene s-hero" id="s1" data-title="المملكة الأردنية الهاشمية">
+  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s01.jpg" alt="الدير في البتراء" fetchpriority="high"></div>
+  <div class="s-hero__pattern" data-speed="-0.12" aria-hidden="true"></div>
+  <div class="scene__shade"></div>
+  <div class="s-hero__inner">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠١</span>
+    <h1 class="s-hero__title">
+      <span class="line"><span class="rv rv-mask">المملكة الأردنية</span></span>
+      <span class="line"><span class="rv rv-mask" style="--d:.18s">الهاشمية</span></span>
+    </h1>
+    <span class="goldline rv" style="--d:.5s" aria-hidden="true"></span>
+  </div>
+  <a class="cue" href="#s2" aria-label="الشريحة التالية">
+    <span class="cue__track"><span class="cue__dot"></span></span>
+  </a>
+</section>
+
+<!-- ====== ٢ — معلومات عامة ====== -->
+<section class="scene s-facts" id="s2" data-title="معلومات عامة">
+  <div class="scene__bg" data-speed="0.18">
+    <video src="assets/video/s02-amman.mp4" poster="assets/img/s02.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+  </div>
+  <div class="scene__shade"></div>
+  <div class="wrap s-facts__grid">
+    <header class="s-facts__head">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٢</span>
+      <h2 class="title-xl rv rv-mask">معلومات عامة</h2>
+    </header>
+    <dl class="ledger">
+      <div class="ledger__row rv" style="--d:.05s"><dt>الاسم الرسمي:</dt> <dd>المملكة الأردنية الهاشمية</dd></div>
+      <div class="ledger__row rv" style="--d:.12s"><dt>العاصمة:</dt> <dd>عَمّان</dd></div>
+      <div class="ledger__row rv" style="--d:.19s"><dt>المساحة:</dt> <dd>89,287 كيلومترًا مربعًا</dd></div>
+      <div class="ledger__row rv" style="--d:.26s"><dt>عدد السكان:</dt> <dd>حوالي 11.9 مليون نسمة</dd></div>
+      <div class="ledger__row rv" style="--d:.33s"><dt>اللغة الرسمية:</dt> <dd>اللغة العربية</dd></div>
+      <div class="ledger__row rv" style="--d:.40s"><dt>العملة:</dt> <dd>الدينار الأردني</dd></div>
+      <div class="ledger__row rv" style="--d:.47s"><dt>نظام الحكم:</dt> <dd>مَلَكِيَّة دستورية وراثية.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ====== ٣ — العلم ====== -->
+<section class="scene s-flag" id="s3" data-title="عَلَمُ الأُرْدُنِّ">
+  <figure class="s-flag__photo">
+    <div class="s-flag__img" data-speed="0.15"><img src="assets/img/s03.jpg" alt="علم الأردن" loading="lazy"></div>
+  </figure>
+  <div class="s-flag__text">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٣</span>
+    <img class="s-flag__ribbon rv" src="assets/img/flag-ribbon.webp" alt="" aria-hidden="true" loading="lazy">
+    <p class="lead vocal rv" style="--d:.1s">عَلَمُ الأُرْدُنِّ هُوَ العَلَمُ الرَّسْمِيُّ لِلْمَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ، وَقَدْ بَدَأَ اسْتِخْدَامُهُ رَسْمِيًّا فِي السَّادِسِ عَشَرَ مِنْ أَبْرِيلَ عَامَ ١٩٢٨م.</p>
+    <h3 class="subhead vocal rv" style="--d:.2s">يَتَكَوَّنُ العَلَمُ مِنْ ثَلَاثَةِ أَشْرِطَةٍ أُفُقِيَّةٍ:</h3>
+    <ul class="stripes vocal">
+      <li class="rv" style="--d:.25s"><span class="chip chip--black" aria-hidden="true"></span><span>اللّونُ الأَسْوَدُ: يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ العَبَّاسِيَّةِ.</span></li>
+      <li class="rv" style="--d:.32s"><span class="chip chip--white" aria-hidden="true"></span><span>اللَّوْنُ الأَبْيَضُ: يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ الأُمَوِيَّةِ.</span></li>
+      <li class="rv" style="--d:.39s"><span class="chip chip--green" aria-hidden="true"></span><span>اللَّوْنُ الأَخْضَرُ: يَرْمُزُ إِلَى رَايَةِ آلِ البَيْتِ.</span></li>
+      <li class="rv" style="--d:.46s"><span class="chip chip--red" aria-hidden="true"></span><span>اللَّوْنُ الأَحْمَرُ: يَظْهَرُ عَلَى شَكْلِ مُثَلَّثٍ، وَيَرْمُزُ إِلَى الثَّوْرَةِ العَرَبِيَّةِ الكُبْرَى وَإِلَى الأُسْرَةِ الهَاشِمِيَّةِ.</span></li>
+    </ul>
+    <p class="note vocal rv" style="--d:.55s"><svg class="star7" viewBox="0 0 100 100" aria-hidden="true"><path d="M50.0 4.0L59.5 30.2L86.0 21.3L71.4 45.1L94.8 60.2L67.2 63.7L70.0 91.4L50.0 72.0L30.0 91.4L32.8 63.7L5.2 60.2L28.6 45.1L14.0 21.3L40.5 30.2Z"/></svg><span>وَفِي وَسَطِ المُثَلَّثِ الأَحْمَرِ تُوجَدُ نَجْمَةٌ بَيْضَاءُ ذَاتُ سَبْعَةِ رُؤُوسٍ، وَهِيَ تَرْمُزُ إِلَى آيَاتِ سُورَةِ الفَاتِحَةِ السَّبْعِ</span></p>
+  </div>
+</section>
+
+<!-- ====== ٤ — الشعار ====== -->
+<section class="scene s-emblem" id="s4" data-title="شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ">
+  <div class="scene__bg scene__bg--muted" data-speed="0.2"><img src="assets/img/s04.jpg" alt="" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap s-emblem__grid">
+    <div class="s-emblem__intro">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٤</span>
+      <h2 class="title-lg vocal rv rv-mask">شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ</h2>
+      <p class="lead vocal rv" style="--d:.12s">شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ هُوَ رَمْزٌ رَسْمِيٌّ لِلدَّوْلَةِ، وَيَجْمَعُ عَدَدًا مِنَ العَنَاصِرِ الَّتِي تَعْبِّرُ عَنْ تَارِيخِ المَمْلَكَةِ وَهُوِيَّتِهَا.</p>
+    </div>
+    <figure class="medallion rv rv-zoom" style="--d:.15s" data-speed="-0.08">
+      <span class="medallion__ring" aria-hidden="true"></span>
+      <img src="assets/img/emblem.jpg" alt="شعار المملكة الأردنية الهاشمية" loading="lazy">
+    </figure>
+    <div class="s-emblem__list">
+      <h3 class="subhead vocal rv">وَمِنْ أَبْرَزِ عَنَاصِرِ الشِّعَارِ:</h3>
+      <ul class="glossary vocal">
+        <li class="rv" style="--d:.05s"><b>التَّاجُ المَلَكِيُّ:</b> يَرْمُزُ إِلَى نِظَامِ الحُكْمِ المَلَكِيِّ فِي المَمْلَكَةِ.</li>
+        <li class="rv" style="--d:.1s"><b>العُقَابُ:</b> يَرْمُزُ إِلَى القُوَّةِ وَالرِّفْعَةِ.</li>
+        <li class="rv" style="--d:.15s"><b>العَلَمَانِ الأُرْدُنِّيَّانِ:</b> يَرْمُزَانِ إِلَى الدَّوْلَةِ وَالهُوِيَّةِ الوَطَنِيَّةِ.</li>
+        <li class="rv" style="--d:.2s"><b>الكُرَةُ الأَرْضِيَّةُ:</b> تَرْمُزُ إِلَى انْفِتَاحِ الأُرْدُنِّ وَعَلَاقَاتِهِ مَعَ العَالَمِ.</li>
+        <li class="rv" style="--d:.25s"><b>الأَسْلِحَةُ التَّقْلِيدِيَّةُ:</b> تُشِيرُ إِلَى الدِّفَاعِ وَالقُوَّةِ.</li>
+        <li class="rv" style="--d:.3s"><b>القَمْحُ وَسَعَفُ النَّخِيلِ:</b> يَرْمُزَانِ إِلَى الزِّرَاعَةِ وَالخَيْرِ وَالازْدِهَارِ.</li>
+        <li class="rv" style="--d:.35s"><b>الشَّرِيطُ العَرَبِيُّ:</b> يَحْمِلُ اسْمَ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ٥ — الموقع الجغرافي والحدود ====== -->
+<section class="scene s-geo" id="s5" data-title="الموقع الجغرافي والحدود">
+  <div class="scene__bg" data-speed="0.22"><img src="assets/img/s05.jpg" alt="خريطة المنطقة" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap s-geo__grid">
+    <div class="s-geo__text">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٥</span>
+      <h2 class="title-lg rv rv-mask">الموقع الجغرافي والحدود</h2>
+      <p class="lead rv" style="--d:.1s">تقع المملكة الأردنية الهاشمية في غرب آسيا، في منطقة الشرق الأوسط.</p>
+      <p class="sea rv" style="--d:.2s">وللأردن منفذ بحري صغير على البحر الأحمر عن طريق خليج العقبة.</p>
+    </div>
+    <div class="compass">
+      <h3 class="compass__label rv">تحدّها:</h3>
+      <div class="compass__dial rv rv-zoom" style="--d:.1s" aria-hidden="true">
+        <span class="compass__ring"></span><span class="compass__ring compass__ring--2"></span>
+        <span class="compass__axis compass__axis--v"></span><span class="compass__axis compass__axis--h"></span>
+        <span class="compass__core"></span>
+      </div>
+      <ul class="compass__list">
+        <li class="compass__n rv" style="--d:.2s">سورية من الشمال.</li>
+        <li class="compass__e rv" style="--d:.3s">العراق من الشرق.</li>
+        <li class="compass__s rv" style="--d:.4s">المملكة العربية السعودية من الجنوب والجنوب الشرقي.</li>
+        <li class="compass__w rv" style="--d:.5s">فلسطين من الغرب.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ٦ — السكان ====== -->
+<section class="scene s-people" id="s6" data-title="السكان">
+  <div class="s-people__pattern" aria-hidden="true"></div>
+  <div class="wrap">
+    <header class="s-people__head">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٦</span>
+      <h2 class="title-xxl rv rv-mask">السكان</h2>
+      <p class="statement rv" style="--d:.1s">يبلغ عدد سكان الأردن حوالي <span class="num">11.9</span> مليون نسمة.</p>
+    </header>
+    <div class="s-people__body">
+      <p class="rv" style="--d:.15s">يشكّل العرب غالبية السكان، وتعيش في الأردن أيضًا مجموعات من الشركس والشيشان والأرمن وغيرهم.</p>
+      <p class="rv" style="--d:.25s">ويتركز معظم السكان في المناطق الشمالية والوسطى من البلاد، وخاصة في عمّان والزرقاء وإربد.</p>
+    </div>
+    <div class="triptych">
+      <figure class="triptych__item rv rv-zoom" style="--d:.05s" data-speed="0.10"><img src="assets/img/s06-b.jpg" alt="ضيافة وجلسة عائلية" loading="lazy"></figure>
+      <figure class="triptych__item rv rv-zoom" style="--d:.15s" data-speed="-0.06"><img src="assets/img/s06-a.jpg" alt="رجل وطفل في الصحراء" loading="lazy"></figure>
+      <figure class="triptych__item rv rv-zoom" style="--d:.25s" data-speed="0.14"><img src="assets/img/s06-c.jpg" alt="جلسة قهوة عربية في الصحراء" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ٧ — الاقتصاد ====== -->
+<section class="scene s-econ" id="s7" data-title="الاقتصاد والناتج المحلي الإجمالي">
+  <div class="s-econ__photo"><div class="s-econ__img" data-speed="0.16"><img src="assets/img/s07.jpg" alt="سوق تقليدي" loading="lazy"></div></div>
+  <div class="s-econ__text">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٧</span>
+    <h2 class="title-lg rv rv-mask">الاقتصاد والناتج المحلي الإجمالي</h2>
+    <p class="rv" style="--d:.1s">يُعَدُّ الأردن من دول الشرق الأوسط ذات الاقتصاد المتنوع.</p>
+    <p class="statement rv" style="--d:.18s">بلغ الناتج المحلي الإجمالي للأردن حوالي <span class="num">53.35</span> مليار دولار أمريكي في عام 2024.</p>
+    <h3 class="subhead rv" style="--d:.24s">ومن أهم قطاعات الاقتصاد:</h3>
+    <ul class="sectors">
+      <li class="rv" style="--d:.28s">الخدمات؛</li>
+      <li class="rv" style="--d:.33s">التجارة؛</li>
+      <li class="rv" style="--d:.38s">الصناعة؛</li>
+      <li class="rv" style="--d:.43s">السياحة؛</li>
+      <li class="rv" style="--d:.48s">النقل.</li>
+    </ul>
+    <p class="quote rv" style="--d:.55s">ويؤدي قطاع السياحة دورًا مهمًا في الاقتصاد الأردني بسبب المواقع التاريخية والطبيعية المشهورة.</p>
+  </div>
+</section>
+
+<!-- ====== ٨ — الاستيراد والتصدير ====== -->
+<section class="scene s-trade" id="s8" data-title="الاستيراد والتصدير">
+  <div class="scene__bg" data-speed="0.2"><img src="assets/img/s08.jpg" alt="ميناء العقبة" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap s-trade__grid">
+    <div class="s-trade__main">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٨</span>
+      <h2 class="title-lg rv rv-mask">الاستيراد والتصدير</h2>
+      <p class="lead rv" style="--d:.1s">يستورد الأردن من الخارج أكثر مما يصدّر.</p>
+      <h3 class="subhead rv" style="--d:.16s">في عام 2025 بلغ تقريبًا:</h3>
+      <ul class="bars">
+        <li class="bars__item rv" style="--d:.22s; --v:.5154"><span class="bars__label">التصدير: 10.58 مليار دينار أردني.</span><span class="bars__track" aria-hidden="true"><span class="bars__fill"></span></span></li>
+        <li class="bars__item bars__item--imp rv" style="--d:.3s; --v:1"><span class="bars__label">الاستيراد: 20.53 مليار دينار أردني.</span><span class="bars__track" aria-hidden="true"><span class="bars__fill"></span></span></li>
+      </ul>
+    </div>
+    <div class="s-trade__side">
+      <h3 class="subhead rv">ومن أهم المنتجات التي يصدّرها الأردن:</h3>
+      <ul class="manifest">
+        <li class="rv" style="--d:.05s">المنتجات الكيميائية؛</li>
+        <li class="rv" style="--d:.1s">الأسمدة؛</li>
+        <li class="rv" style="--d:.15s">الملابس؛</li>
+        <li class="rv" style="--d:.2s">المنتجات الدوائية؛</li>
+        <li class="rv" style="--d:.25s">بعض الموارد المعدنية.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ٩ — اللغة واللهجات ====== -->
+<section class="scene s-lang" id="s9" data-title="اللغة واللهجات">
+  <div class="s-lang__paper" data-speed="0.1" aria-hidden="true"><img src="assets/img/s09.jpg" alt="" loading="lazy"></div>
+  <div class="wrap">
+    <header class="s-lang__head">
+      <span class="kicker kicker--dark rv" aria-hidden="true"><span class="kicker__line"></span>٠٩</span>
+      <h2 class="title-xxl rv rv-mask">اللغة واللهجات</h2>
+    </header>
+    <div class="s-lang__intro">
+      <p class="lead rv" style="--d:.1s">اللغة الرسمية في الأردن هي اللغة العربية.</p>
+      <p class="rv" style="--d:.18s">وتُستخدم اللغة الإنجليزية أيضًا على نطاق واسع، وخاصة في التعليم والأعمال والتواصل الدولي.</p>
+    </div>
+    <h3 class="subhead rv">وتوجد في الأردن عدة لهجات عربية، منها:</h3>
+    <ul class="dialects">
+      <li class="rv" style="--d:.05s"><span class="dialects__glyph" aria-hidden="true">ش</span><p>اللهجة الشمالية، المنتشرة في مناطق مثل إربد وجرش وعجلون.</p></li>
+      <li class="rv" style="--d:.15s"><span class="dialects__glyph" aria-hidden="true">ح</span><p>اللهجة الحضرية، وخاصة في عمّان والزرقاء.</p></li>
+      <li class="rv" style="--d:.25s"><span class="dialects__glyph" aria-hidden="true">ج</span><p>اللهجات الجنوبية والبدوية، المنتشرة في المناطق الجنوبية والشرقية.</p></li>
+    </ul>
+    <p class="quote quote--dark rv">وتختلف اللهجات الأردنية في بعض الكلمات والنطق، لكنها تنتمي إلى مجموعة اللهجات العربية الشامية والبدوية.</p>
+  </div>
+</section>
+
+<!-- ====== ١٠ — الثقافة والتقاليد ====== -->
+<section class="scene s-culture" id="s10" data-title="الثقافة والتقاليد">
+  <figure class="s-culture__photo rv rv-curtain"><div class="s-culture__img" data-speed="0.12"><img src="assets/img/s10.jpg" alt="تقديم القهوة العربية" loading="lazy"></div></figure>
+  <div class="s-culture__text">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٠</span>
+    <h2 class="title-lg rv rv-mask">الثقافة والتقاليد</h2>
+    <p class="lead rv" style="--d:.1s">تجمع الثقافة الأردنية بين التقاليد العربية والإسلامية والبدوية.</p>
+    <h3 class="subhead rv" style="--d:.16s">ومن أهم خصائص الثقافة الأردنية:</h3>
+    <ul class="traits">
+      <li class="rv" style="--d:.2s">كرم الضيافة؛</li>
+      <li class="rv" style="--d:.25s">احترام كبار السن؛</li>
+      <li class="rv" style="--d:.3s">أهمية الأسرة؛</li>
+      <li class="rv" style="--d:.35s">استقبال الضيوف بالقهوة والطعام؛</li>
+      <li class="rv" style="--d:.4s">العادات والتقاليد البدوية؛</li>
+      <li class="rv" style="--d:.45s">التطريز والحِرَف اليدوية؛</li>
+      <li class="rv" style="--d:.5s">الموسيقى والرقصات الشعبية.</li>
+    </ul>
+    <p class="quote rv" style="--d:.56s">وتُعَدُّ الأسرة والضيافة من أهم القيم في المجتمع الأردني.</p>
+  </div>
+</section>
+
+<!-- ====== ١١ — الملابس التقليدية ====== -->
+<section class="scene s-dress" id="s11" data-title="الملابس التقليدية">
+  <div class="scene__bg" data-speed="0.2"><img src="assets/img/s11.jpg" alt="عائلة بالملابس التقليدية" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap">
+    <header class="s-dress__head">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١١</span>
+      <h2 class="title-xl rv rv-mask">الملابس التقليدية</h2>
+    </header>
+    <div class="s-dress__cols">
+      <article class="panel rv" style="--d:.1s">
+        <h3 class="panel__title">ملابس الرجال:</h3>
+        <p>من الملابس التقليدية للرجال:</p>
+        <ul class="diamonds">
+          <li>الثوب؛</li>
+          <li>الكوفية أو الشماغ؛</li>
+          <li>العباءة في بعض المناسبات.</li>
+        </ul>
+      </article>
+      <article class="panel rv" style="--d:.22s">
+        <h3 class="panel__title">ملابس النساء:</h3>
+        <p>ترتدي النساء في بعض المناطق فساتين طويلة تقليدية مزينة بالتطريز.</p>
+      </article>
+    </div>
+    <p class="quote rv" style="--d:.3s">ويُعَدُّ التطريز الأردني جزءًا مهمًا من التراث الثقافي للبلاد.</p>
+  </div>
+</section>
+
+<!-- ====== ١٢ — المطبخ الأردني ====== -->
+<section class="scene s-food" id="s12" data-title="المطبخ الأردني">
+  <div class="s-food__bg" data-speed="0.15" aria-hidden="true"><img src="assets/img/s12.jpg" alt="" loading="lazy"></div>
+  <div class="wrap s-food__grid">
+    <figure class="arch rv rv-zoom" data-speed="-0.06"><img src="assets/img/s12-mansaf.jpg" alt="طبق المنسف" loading="lazy"></figure>
+    <div class="s-food__text">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٢</span>
+      <h2 class="title-xl rv rv-mask">المطبخ الأردني</h2>
+      <div class="s-food__cols">
+        <div class="rv" style="--d:.1s">
+          <p class="statement">من أشهر الأطباق الأردنية المنسف.</p>
+          <p>يتكوّن المنسف عادةً من:</p>
+          <ul class="diamonds">
+            <li>الأرز؛</li>
+            <li>لحم الضأن؛</li>
+            <li>الجميد؛</li>
+            <li>اللوز أو المكسرات.</li>
+          </ul>
+        </div>
+        <div class="rv" style="--d:.22s">
+          <p>ويُقدَّم المنسف في المناسبات العائلية والأعياد وعند استقبال الضيوف.</p>
+          <p>ومن الأطعمة الشعبية الأخرى:</p>
+          <ul class="diamonds">
+            <li>الحمص؛</li>
+            <li>الفلافل؛</li>
+            <li>المقلوبة؛</li>
+            <li>الفتّة؛</li>
+            <li>المتبل.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ١٣ — البتراء ====== -->
+<section class="scene s-place s-place--petra" id="s13" data-title="البتراء">
+  <div class="scene__bg" data-speed="0.3"><img src="assets/img/s13.jpg" alt="الخزنة في البتراء" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="letterbox" aria-hidden="true"></div>
+  <div class="wrap place">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٣</span>
+    <h2 class="place__title rv rv-mask">البتراء</h2>
+    <p class="place__text rv" style="--d:.2s">البتراء مدينة تاريخية قديمة بناها الأنباط، وهي من أشهر المعالم السياحية في الأردن، كما أنها مدرجة على قائمة التراث العالمي لليونسكو.</p>
+  </div>
+</section>
+
+<!-- ====== ١٤ — عمّان ====== -->
+<section class="scene s-place s-place--amman" id="s14" data-title="عمّان">
+  <div class="scene__bg" data-speed="0.25">
+    <video src="assets/video/s14-amman.mp4" poster="assets/img/s14.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+  </div>
+  <div class="scene__shade"></div>
+  <div class="wrap place">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٤</span>
+    <h2 class="place__title rv rv-mask">عمّان</h2>
+    <p class="place__text rv" style="--d:.2s">عمّان هي عاصمة الأردن وأكبر مدنه، وتجمع بين الحياة الحديثة والمواقع التاريخية، مثل قلعة عمّان والمدرج الروماني.</p>
+  </div>
+</section>
+
+<!-- ====== ١٥ — جرش ====== -->
+<section class="scene s-place s-place--jerash" id="s15" data-title="جرش">
+  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s15.jpg" alt="آثار جرش" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="columns" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="wrap place">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٥</span>
+    <h2 class="place__title rv rv-mask">جرش</h2>
+    <p class="place__text rv" style="--d:.2s">جرش مدينة تاريخية تشتهر بالآثار الرومانية، مثل الشوارع القديمة والأعمدة والمعابد والمسارح.</p>
+  </div>
+</section>
+
+<!-- ====== ١٦ — وادي رم ====== -->
+<section class="scene s-place s-place--rum" id="s16" data-title="وادي رم">
+  <div class="scene__bg" data-speed="0.3"><img src="assets/img/s16.jpg" alt="وادي رم" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap place">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٦</span>
+    <h2 class="place__title rv rv-mask">وادي رم</h2>
+    <p class="place__text rv" style="--d:.2s">وادي رم منطقة صحراوية جميلة تشتهر بالجبال والصخور والمناظر الطبيعية، وتُعرف أيضًا باسم وادي القمر.</p>
+  </div>
+</section>
+
+<!-- ====== ١٧ — البحر الميت ====== -->
+<section class="scene s-place s-place--sea" id="s17" data-title="البحر الميت">
+  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s17.jpg" alt="البحر الميت" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap place">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٧</span>
+    <h2 class="place__title rv rv-mask">البحر الميت</h2>
+    <span class="horizon rv" style="--d:.15s" aria-hidden="true"></span>
+    <p class="place__text rv" style="--d:.25s">البحر الميت من أشهر المعالم الطبيعية في الأردن، ويقع في منطقة منخفضة جدًا من سطح الأرض.</p>
+  </div>
+</section>
+
+<!-- ====== ١٨ — حقائق مثيرة ====== -->
+<section class="scene s-trivia" id="s18" data-title="حقائق مثيرة عن الأردن">
+  <div class="scene__bg scene__bg--duo" data-speed="0.18"><img src="assets/img/s18.jpg" alt="" loading="lazy"></div>
+  <div class="scene__shade"></div>
+  <div class="wrap">
+    <header class="s-trivia__head">
+      <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٨</span>
+      <h2 class="title-xl rv rv-mask">حقائق مثيرة عن الأردن</h2>
+    </header>
+    <ol class="facts vocal">
+      <li class="rv" style="--d:.05s"><span class="facts__n" aria-hidden="true">١</span><p>سُمِّيَ الأردن نسبةً إلى نهر الأردن.</p></li>
+      <li class="rv" style="--d:.12s"><span class="facts__n" aria-hidden="true">٢</span><p>تُعَدُّ البتراء من عجائب الدنيا السبع الجديدة.</p></li>
+      <li class="rv" style="--d:.19s"><span class="facts__n" aria-hidden="true">٣</span><p>تُعَدُّ البتراء ووادي رم من مواقع التراث العالمي لليونسكو.</p></li>
+      <li class="rv" style="--d:.26s"><span class="facts__n" aria-hidden="true">٤</span><p>للأردن منفذ بحري على البحر الأحمر من خلال مدينة العقبة.</p></li>
+      <li class="rv" style="--d:.33s"><span class="facts__n" aria-hidden="true">٥</span><p>تُعَدُّ جرش من أهم المدن الأثرية الرومانية المحفوظة في المنطقة.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ====== ١٩ — الختام ====== -->
+<section class="scene s-end" id="s19" data-title="شُكْرًا لِانْتِبَاهِكُ">
+  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s19.jpg" alt="قافلة جمال في البتراء" loading="lazy"></div>
+  <div class="s-end__pattern" aria-hidden="true"></div>
+  <div class="scene__shade"></div>
+  <div class="s-end__inner">
+    <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٩<span class="kicker__line"></span></span>
+    <h2 class="s-end__title vocal rv rv-mask">شُكْرًا لِانْتِبَاهِكُ</h2>
+    <span class="goldline rv" style="--d:.3s" aria-hidden="true"></span>
+    <p class="credit vocal rv" style="--d:.45s">إِعْدَادُ الطَّالِبَةِ: إِعْزَازَاخُونْ أَنْفَارُوفَا</p>
+    <a class="btn-ghost rv" style="--d:.6s" href="#s1" aria-label="العودة إلى البداية">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>
