@@ -63,10 +63,10 @@
 
 <!-- ====== ١ — المملكة الأردنية الهاشمية ====== -->
 <section class="scene s-hero" id="s1" data-title="المملكة الأردنية الهاشمية">
-  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s01.jpg" alt="الدير في البتراء" fetchpriority="high"></div>
-  <div class="s-hero__pattern" data-speed="-0.12" aria-hidden="true"></div>
+  <div class="scene__bg" data-speed="0.25" data-depth="-24"><video src="assets/video/s01-deir.mp4" poster="assets/img/s01.jpg" muted loop playsinline autoplay preload="auto" aria-hidden="true"></video></div>
+  <div class="s-hero__pattern" data-speed="-0.12" data-depth="-46" aria-hidden="true"></div>
   <div class="scene__shade"></div>
-  <div class="s-hero__inner">
+  <div class="s-hero__inner" data-depth="28">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠١</span>
     <h1 class="s-hero__title">
       <span class="line"><span class="rv rv-mask">المملكة الأردنية</span></span>
@@ -81,11 +81,11 @@
 
 <!-- ====== ٢ — معلومات عامة ====== -->
 <section class="scene s-facts" id="s2" data-title="معلومات عامة">
-  <div class="scene__bg" data-speed="0.18">
+  <div class="scene__bg" data-speed="0.18" data-depth="-16">
     <video src="assets/video/s02-amman.mp4" poster="assets/img/s02.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
   </div>
   <div class="scene__shade"></div>
-  <div class="wrap s-facts__grid">
+  <div class="wrap s-facts__grid" data-depth="12">
     <header class="s-facts__head">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٢</span>
       <h2 class="title-xl rv rv-mask">معلومات عامة</h2>
@@ -105,9 +105,9 @@
 <!-- ====== ٣ — العلم ====== -->
 <section class="scene s-flag" id="s3" data-title="عَلَمُ الأُرْدُنِّ">
   <figure class="s-flag__photo">
-    <div class="s-flag__img" data-speed="0.15"><img src="assets/img/s03.jpg" alt="علم الأردن" loading="lazy"></div>
+    <div class="s-flag__img" data-speed="0.15"><video src="assets/video/s03-flag.mp4" poster="assets/img/s03.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   </figure>
-  <div class="s-flag__text">
+  <div class="s-flag__text" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٣</span>
     <img class="s-flag__ribbon rv" src="assets/img/flag-ribbon.webp" alt="" aria-hidden="true" loading="lazy">
     <p class="lead vocal rv" style="--d:.1s">عَلَمُ الأُرْدُنِّ هُوَ العَلَمُ الرَّسْمِيُّ لِلْمَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ، وَقَدْ بَدَأَ اسْتِخْدَامُهُ رَسْمِيًّا فِي السَّادِسِ عَشَرَ مِنْ أَبْرِيلَ عَامَ ١٩٢٨م.</p>
@@ -124,15 +124,15 @@
 
 <!-- ====== ٤ — الشعار ====== -->
 <section class="scene s-emblem" id="s4" data-title="شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ">
-  <div class="scene__bg scene__bg--muted" data-speed="0.2"><img src="assets/img/s04.jpg" alt="" loading="lazy"></div>
+  <div class="scene__bg scene__bg--muted" data-speed="0.2" data-depth="-16"><video src="assets/video/s04-deadsea.mp4" poster="assets/img/s04.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap s-emblem__grid">
+  <div class="wrap s-emblem__grid" data-depth="12">
     <div class="s-emblem__intro">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٤</span>
       <h2 class="title-lg vocal rv rv-mask">شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ</h2>
       <p class="lead vocal rv" style="--d:.12s">شِعَارُ المَمْلَكَةِ الأُرْدُنِّيَّةِ الهَاشِمِيَّةِ هُوَ رَمْزٌ رَسْمِيٌّ لِلدَّوْلَةِ، وَيَجْمَعُ عَدَدًا مِنَ العَنَاصِرِ الَّتِي تَعْبِّرُ عَنْ تَارِيخِ المَمْلَكَةِ وَهُوِيَّتِهَا.</p>
     </div>
-    <figure class="medallion rv rv-zoom" style="--d:.15s" data-speed="-0.08">
+    <figure class="medallion rv rv-zoom" data-tilt style="--d:.15s" data-speed="-0.08">
       <span class="medallion__ring" aria-hidden="true"></span>
       <img src="assets/img/emblem.jpg" alt="شعار المملكة الأردنية الهاشمية" loading="lazy">
     </figure>
@@ -153,9 +153,9 @@
 
 <!-- ====== ٥ — الموقع الجغرافي والحدود ====== -->
 <section class="scene s-geo" id="s5" data-title="الموقع الجغرافي والحدود">
-  <div class="scene__bg" data-speed="0.22"><img src="assets/img/s05.jpg" alt="خريطة المنطقة" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.22" data-depth="-16"><video src="assets/video/s05-map.mp4" poster="assets/img/s05.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap s-geo__grid">
+  <div class="wrap s-geo__grid" data-depth="12">
     <div class="s-geo__text">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٥</span>
       <h2 class="title-lg rv rv-mask">الموقع الجغرافي والحدود</h2>
@@ -182,7 +182,7 @@
 <!-- ====== ٦ — السكان ====== -->
 <section class="scene s-people" id="s6" data-title="السكان">
   <div class="s-people__pattern" aria-hidden="true"></div>
-  <div class="wrap">
+  <div class="wrap" data-depth="12">
     <header class="s-people__head">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٦</span>
       <h2 class="title-xxl rv rv-mask">السكان</h2>
@@ -193,17 +193,17 @@
       <p class="rv" style="--d:.25s">ويتركز معظم السكان في المناطق الشمالية والوسطى من البلاد، وخاصة في عمّان والزرقاء وإربد.</p>
     </div>
     <div class="triptych">
-      <figure class="triptych__item rv rv-zoom" style="--d:.05s" data-speed="0.10"><img src="assets/img/s06-b.jpg" alt="ضيافة وجلسة عائلية" loading="lazy"></figure>
-      <figure class="triptych__item rv rv-zoom" style="--d:.15s" data-speed="-0.06"><img src="assets/img/s06-a.jpg" alt="رجل وطفل في الصحراء" loading="lazy"></figure>
-      <figure class="triptych__item rv rv-zoom" style="--d:.25s" data-speed="0.14"><img src="assets/img/s06-c.jpg" alt="جلسة قهوة عربية في الصحراء" loading="lazy"></figure>
+      <figure class="triptych__item rv rv-zoom" data-tilt style="--d:.05s" data-speed="0.10"><img src="assets/img/s06-b.jpg" alt="ضيافة وجلسة عائلية" loading="lazy"></figure>
+      <figure class="triptych__item rv rv-zoom" data-tilt style="--d:.15s" data-speed="-0.06"><img src="assets/img/s06-a.jpg" alt="رجل وطفل في الصحراء" loading="lazy"></figure>
+      <figure class="triptych__item rv rv-zoom" data-tilt style="--d:.25s" data-speed="0.14"><img src="assets/img/s06-c.jpg" alt="جلسة قهوة عربية في الصحراء" loading="lazy"></figure>
     </div>
   </div>
 </section>
 
 <!-- ====== ٧ — الاقتصاد ====== -->
 <section class="scene s-econ" id="s7" data-title="الاقتصاد والناتج المحلي الإجمالي">
-  <div class="s-econ__photo"><div class="s-econ__img" data-speed="0.16"><img src="assets/img/s07.jpg" alt="سوق تقليدي" loading="lazy"></div></div>
-  <div class="s-econ__text">
+  <div class="s-econ__photo"><div class="s-econ__img" data-speed="0.16"><video src="assets/video/s07-souk.mp4" poster="assets/img/s07.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div></div>
+  <div class="s-econ__text" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٧</span>
     <h2 class="title-lg rv rv-mask">الاقتصاد والناتج المحلي الإجمالي</h2>
     <p class="rv" style="--d:.1s">يُعَدُّ الأردن من دول الشرق الأوسط ذات الاقتصاد المتنوع.</p>
@@ -222,9 +222,9 @@
 
 <!-- ====== ٨ — الاستيراد والتصدير ====== -->
 <section class="scene s-trade" id="s8" data-title="الاستيراد والتصدير">
-  <div class="scene__bg" data-speed="0.2"><img src="assets/img/s08.jpg" alt="ميناء العقبة" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.2" data-depth="-16"><video src="assets/video/s08-port.mp4" poster="assets/img/s08.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap s-trade__grid">
+  <div class="wrap s-trade__grid" data-depth="12">
     <div class="s-trade__main">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>٠٨</span>
       <h2 class="title-lg rv rv-mask">الاستيراد والتصدير</h2>
@@ -250,8 +250,8 @@
 
 <!-- ====== ٩ — اللغة واللهجات ====== -->
 <section class="scene s-lang" id="s9" data-title="اللغة واللهجات">
-  <div class="s-lang__paper" data-speed="0.1" aria-hidden="true"><img src="assets/img/s09.jpg" alt="" loading="lazy"></div>
-  <div class="wrap">
+  <div class="s-lang__paper" data-speed="0.1" aria-hidden="true"><video src="assets/video/s09-script.mp4" poster="assets/img/s09.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+  <div class="wrap" data-depth="12">
     <header class="s-lang__head">
       <span class="kicker kicker--dark rv" aria-hidden="true"><span class="kicker__line"></span>٠٩</span>
       <h2 class="title-xxl rv rv-mask">اللغة واللهجات</h2>
@@ -272,8 +272,8 @@
 
 <!-- ====== ١٠ — الثقافة والتقاليد ====== -->
 <section class="scene s-culture" id="s10" data-title="الثقافة والتقاليد">
-  <figure class="s-culture__photo rv rv-curtain"><div class="s-culture__img" data-speed="0.12"><img src="assets/img/s10.jpg" alt="تقديم القهوة العربية" loading="lazy"></div></figure>
-  <div class="s-culture__text">
+  <figure class="s-culture__photo rv rv-curtain" data-tilt><div class="s-culture__img" data-speed="0.12"><video src="assets/video/s10-coffee.mp4" poster="assets/img/s10.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div></figure>
+  <div class="s-culture__text" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٠</span>
     <h2 class="title-lg rv rv-mask">الثقافة والتقاليد</h2>
     <p class="lead rv" style="--d:.1s">تجمع الثقافة الأردنية بين التقاليد العربية والإسلامية والبدوية.</p>
@@ -293,9 +293,9 @@
 
 <!-- ====== ١١ — الملابس التقليدية ====== -->
 <section class="scene s-dress" id="s11" data-title="الملابس التقليدية">
-  <div class="scene__bg" data-speed="0.2"><img src="assets/img/s11.jpg" alt="عائلة بالملابس التقليدية" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.2" data-depth="-16"><video src="assets/video/s11-family.mp4" poster="assets/img/s11.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap">
+  <div class="wrap" data-depth="12">
     <header class="s-dress__head">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١١</span>
       <h2 class="title-xl rv rv-mask">الملابس التقليدية</h2>
@@ -321,9 +321,9 @@
 
 <!-- ====== ١٢ — المطبخ الأردني ====== -->
 <section class="scene s-food" id="s12" data-title="المطبخ الأردني">
-  <div class="s-food__bg" data-speed="0.15" aria-hidden="true"><img src="assets/img/s12.jpg" alt="" loading="lazy"></div>
-  <div class="wrap s-food__grid">
-    <figure class="arch rv rv-zoom" data-speed="-0.06"><img src="assets/img/s12-mansaf.jpg" alt="طبق المنسف" loading="lazy"></figure>
+  <div class="s-food__bg" data-speed="0.15" aria-hidden="true"><video src="assets/video/s12-mezze.mp4" poster="assets/img/s12.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
+  <div class="wrap s-food__grid" data-depth="12">
+    <figure class="arch rv rv-zoom" data-tilt data-speed="-0.06"><img src="assets/img/s12-mansaf.jpg" alt="طبق المنسف" loading="lazy"></figure>
     <div class="s-food__text">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٢</span>
       <h2 class="title-xl rv rv-mask">المطبخ الأردني</h2>
@@ -356,10 +356,10 @@
 
 <!-- ====== ١٣ — البتراء ====== -->
 <section class="scene s-place s-place--petra" id="s13" data-title="البتراء">
-  <div class="scene__bg" data-speed="0.3"><img src="assets/img/s13.jpg" alt="الخزنة في البتراء" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.3" data-depth="-16"><video src="assets/video/s13-petra.mp4" poster="assets/img/s13.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
   <div class="letterbox" aria-hidden="true"></div>
-  <div class="wrap place">
+  <div class="wrap place" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٣</span>
     <h2 class="place__title rv rv-mask">البتراء</h2>
     <p class="place__text rv" style="--d:.2s">البتراء مدينة تاريخية قديمة بناها الأنباط، وهي من أشهر المعالم السياحية في الأردن، كما أنها مدرجة على قائمة التراث العالمي لليونسكو.</p>
@@ -368,11 +368,11 @@
 
 <!-- ====== ١٤ — عمّان ====== -->
 <section class="scene s-place s-place--amman" id="s14" data-title="عمّان">
-  <div class="scene__bg" data-speed="0.25">
+  <div class="scene__bg" data-speed="0.25" data-depth="-16">
     <video src="assets/video/s14-amman.mp4" poster="assets/img/s14.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
   </div>
   <div class="scene__shade"></div>
-  <div class="wrap place">
+  <div class="wrap place" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٤</span>
     <h2 class="place__title rv rv-mask">عمّان</h2>
     <p class="place__text rv" style="--d:.2s">عمّان هي عاصمة الأردن وأكبر مدنه، وتجمع بين الحياة الحديثة والمواقع التاريخية، مثل قلعة عمّان والمدرج الروماني.</p>
@@ -381,10 +381,10 @@
 
 <!-- ====== ١٥ — جرش ====== -->
 <section class="scene s-place s-place--jerash" id="s15" data-title="جرش">
-  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s15.jpg" alt="آثار جرش" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.25" data-depth="-16"><video src="assets/video/s15-jerash.mp4" poster="assets/img/s15.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
   <div class="columns" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="wrap place">
+  <div class="wrap place" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٥</span>
     <h2 class="place__title rv rv-mask">جرش</h2>
     <p class="place__text rv" style="--d:.2s">جرش مدينة تاريخية تشتهر بالآثار الرومانية، مثل الشوارع القديمة والأعمدة والمعابد والمسارح.</p>
@@ -393,9 +393,9 @@
 
 <!-- ====== ١٦ — وادي رم ====== -->
 <section class="scene s-place s-place--rum" id="s16" data-title="وادي رم">
-  <div class="scene__bg" data-speed="0.3"><img src="assets/img/s16.jpg" alt="وادي رم" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.3" data-depth="-16"><video src="assets/video/s16-rum.mp4" poster="assets/img/s16.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap place">
+  <div class="wrap place" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٦</span>
     <h2 class="place__title rv rv-mask">وادي رم</h2>
     <p class="place__text rv" style="--d:.2s">وادي رم منطقة صحراوية جميلة تشتهر بالجبال والصخور والمناظر الطبيعية، وتُعرف أيضًا باسم وادي القمر.</p>
@@ -404,9 +404,9 @@
 
 <!-- ====== ١٧ — البحر الميت ====== -->
 <section class="scene s-place s-place--sea" id="s17" data-title="البحر الميت">
-  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s17.jpg" alt="البحر الميت" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.25" data-depth="-16"><video src="assets/video/s17-sea.mp4" poster="assets/img/s17.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap place">
+  <div class="wrap place" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٧</span>
     <h2 class="place__title rv rv-mask">البحر الميت</h2>
     <span class="horizon rv" style="--d:.15s" aria-hidden="true"></span>
@@ -416,9 +416,9 @@
 
 <!-- ====== ١٨ — حقائق مثيرة ====== -->
 <section class="scene s-trivia" id="s18" data-title="حقائق مثيرة عن الأردن">
-  <div class="scene__bg scene__bg--duo" data-speed="0.18"><img src="assets/img/s18.jpg" alt="" loading="lazy"></div>
+  <div class="scene__bg scene__bg--duo" data-speed="0.18" data-depth="-16"><video src="assets/video/s18-map.mp4" poster="assets/img/s18.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="scene__shade"></div>
-  <div class="wrap">
+  <div class="wrap" data-depth="12">
     <header class="s-trivia__head">
       <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٨</span>
       <h2 class="title-xl rv rv-mask">حقائق مثيرة عن الأردن</h2>
@@ -435,10 +435,10 @@
 
 <!-- ====== ١٩ — الختام ====== -->
 <section class="scene s-end" id="s19" data-title="شُكْرًا لِانْتِبَاهِكُ">
-  <div class="scene__bg" data-speed="0.25"><img src="assets/img/s19.jpg" alt="قافلة جمال في البتراء" loading="lazy"></div>
+  <div class="scene__bg" data-speed="0.25" data-depth="-16"><video src="assets/video/s19-camels.mp4" poster="assets/img/s19.jpg" muted loop playsinline preload="none" aria-hidden="true"></video></div>
   <div class="s-end__pattern" aria-hidden="true"></div>
   <div class="scene__shade"></div>
-  <div class="s-end__inner">
+  <div class="s-end__inner" data-depth="12">
     <span class="kicker rv" aria-hidden="true"><span class="kicker__line"></span>١٩<span class="kicker__line"></span></span>
     <h2 class="s-end__title vocal rv rv-mask">شُكْرًا لِانْتِبَاهِكُ</h2>
     <span class="goldline rv" style="--d:.3s" aria-hidden="true"></span>
