@@ -1,9 +1,13 @@
-# المملكة الأردنية الهاشمية — عرض سينمائي
+# المملكة الأردنية الهاشمية — رحلة سينمائية
 
-Cinematic, interactive Arabic (RTL) web version of the Canva presentation about Jordan (19 slides → 19 scenes).
+A documentary-style, interactive Arabic (RTL) web version of the Canva presentation about Jordan.
+19 slides → 19 chapters, in the original order, with the original text verbatim.
 
-- Static site: `index.html`, `assets/styles.css`, `assets/app.js` — no build step, no libraries.
-- Fonts (Reem Kufi, Amiri, Noto Naskh Arabic) are self-hosted in `assets/fonts`, so it works offline on a projector.
-- Images and background videos come from the original Canva design (most Canva clips are only available at 480p; the Amman clips at 720p).
-- 3D: scenes are sticky and stack — the next scene rises over the previous one, which tilts back into depth; titles flip in, layers move with the mouse.
-- Controls: scroll, ↓ / PageDown / ← next, ↑ / PageUp / → previous, Home / End, `F` fullscreen, `G` slide index.
+- The journey starts in space on a 3D globe (three.js + NASA Blue Marble imagery), flies to Jordan,
+  highlights its neighbours and flies to each place; then real footage takes over.
+- The slide text is typed as subtitles at the bottom of the screen, one line per step.
+- Scroll, use ← / → / PageDown / PageUp (presentation clickers work), or press ▶ / Space for autoplay.
+  `F` fullscreen, `G` chapter index. The ⓘ button lists all sources and licences.
+- Static site: `index.html`, `assets/film.css`, `assets/film.js`, `assets/globe.js`. No build step.
+- Footage: the original Canva design plus openly licensed clips from Wikimedia Commons
+  (Jordan Tourism Board, CC BY-SA 4.0; and others — see the credits panel).
