@@ -16,6 +16,7 @@
     's02-amman': V('s02-amman.mp4', 's02.jpg'),
     's03-flag': V('s03-flag.mp4', 's03.jpg'),
     's04-deadsea': V('s04-deadsea.mp4', 's04.jpg'),
+    's05-map': V('s05-map.mp4', 's05.jpg'),
     's07-souk': V('s07-souk.mp4', 's07.jpg'),
     's08-port': V('s08-port.mp4', 's08.jpg'),
     's09-script': V('s09-script.mp4', 's09.jpg'),
@@ -27,6 +28,8 @@
     's15-jerash': V('s15-jerash.mp4', 's15.jpg'),
     's16-rum': V('s16-rum.mp4', 's16.jpg'),
     's17-sea': V('s17-sea.mp4', 's17.jpg'),
+    's18-map': V('s18-map.mp4', 's18.jpg'),
+    'black': { src: '', poster: '' },
     's19-camels': V('s19-camels.mp4', 's19.jpg'),
     'c-hosp': V('c-hosp.mp4', 'c-hosp.jpg'),
     ...Object.fromEntries(['amman', 'aqaba', 'bedouin', 'deadsea', 'food', 'jerash', 'people', 'petra', 'road', 'rum', 'shemagh']
@@ -53,19 +56,48 @@
   /* ---------- stage elements ---------- */
   const reelsEl = $('#reels');
   const reels = {};
+  // a reel is one video, or a playlist "a+b+c": the presentation's own clip first, then the extra footage
   function reel(key) {
     if (reels[key]) return reels[key];
-    const meta = VIDEOS[key];
     const wrap = document.createElement('div');
     wrap.className = 'reel';
-    const v = document.createElement('video');
-    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'none';
-    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-    if (meta) { v.poster = meta.poster; v.src = meta.src; }
-    wrap.appendChild(v);
+    const keys = key.split('+');
+    const vids = keys.map((k, i) => {
+      const meta = VIDEOS[k];
+      const v = document.createElement('video');
+      v.muted = true; v.playsInline = true; v.preload = 'none';
+      v.loop = keys.length === 1;
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      if (meta && meta.src) { v.poster = meta.poster; v.src = meta.src; }
+      if (i === 0) v.classList.add('cur');
+      wrap.appendChild(v);
+      return v;
+    });
+    const r = { wrap, vids, idx: 0, timer: 0, active: false };
+    if (vids.length > 1) {
+      vids.forEach((v, i) => v.addEventListener('ended', () => {
+        if (!r.active || i !== r.idx) return;
+        const n = (i + 1) % vids.length;
+        playAt(r, n);
+      }));
+    }
     reelsEl.appendChild(wrap);
-    reels[key] = { wrap, v, timer: 0 };
-    return reels[key];
+    reels[key] = r;
+    return r;
+  }
+  function playAt(r, n) {
+    r.idx = n;
+    r.vids.forEach((v, i) => v.classList.toggle('cur', i === n));
+    const v = r.vids[n];
+    if (!v.src || reduceMotion) return;
+    if (v.preload === 'none') v.preload = 'auto';
+    try { v.currentTime = 0; } catch (e) { /* not loaded yet */ }
+    const p = v.play(); if (p && p.catch) p.catch(() => {});
+    // warm up the next clip in the playlist
+    const nx = r.vids[(n + 1) % r.vids.length];
+    if (nx !== v && nx.preload === 'none') nx.preload = 'auto';
+    // pause the others once the cross-fade is over
+    setTimeout(() => { r.vids.forEach((o, i) => { if (i !== r.idx) o.pause(); }); }, 1600);
   }
   const globeCanvas = $('#globe');
   let globeReady = false;
@@ -203,16 +235,13 @@
   function showReel(r) {
     clearTimeout(r.timer);
     r.wrap.classList.add('on');
-    if (r.v.src && !reduceMotion) {
-      if (r.v.preload === 'none') r.v.preload = 'auto';
-      const p = r.v.play(); if (p && p.catch) p.catch(() => {});
-    }
+    if (!r.active) { r.active = true; playAt(r, 0); }
   }
   function hideReel(r) {
     if (!r.wrap.classList.contains('on')) return;
     r.wrap.classList.remove('on');
     clearTimeout(r.timer);
-    r.timer = setTimeout(() => r.v.pause(), 1500);
+    r.timer = setTimeout(() => { r.active = false; r.vids.forEach((v) => v.pause()); }, 1500);
   }
 
   /* ---------- scroll → beat ---------- */
@@ -280,8 +309,8 @@
   const grid = $('#index-grid');
   chapters.forEach((ch, ci) => {
     const first = beats.find((b) => b.ch === ci && b.scene !== 'globe') || beats.find((b) => b.ch === ci);
-    const key = first.scene.replace(/^v:/, '');
-    const poster = first.scene === 'globe' ? 'assets/img/s05.jpg' : (VIDEOS[key] ? VIDEOS[key].poster : '');
+    const key = first.scene.replace(/^v:/, '').split('+')[0];
+    const poster = first.scene === 'globe' || !VIDEOS[key] || !VIDEOS[key].poster ? 'assets/img/s05.jpg' : VIDEOS[key].poster;
     const li = document.createElement('li');
     li.innerHTML = `<a href="#${ch.id}"><img src="${poster}" alt="" loading="lazy"><span class="lbl"><b>${AR(ci + 1)}</b><span></span></span></a>`;
     li.querySelector('.lbl span').textContent = ch.dataset.title || '';
