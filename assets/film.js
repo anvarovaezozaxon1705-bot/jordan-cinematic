@@ -214,17 +214,16 @@
       cardN.textContent = AR(b.ch + 1);
       subsInner.innerHTML = '';
       const h = kids.find((k) => /^H[12]$/.test(k.tagName));
-      const credit = kids.find((k) => k.classList.contains('credit'));
-      const old = cardEl.querySelector('.credit');
-      if (old) old.remove();
+      // lines under the title (closing screen): typed one after another
+      cardEl.querySelectorAll('.credit').forEach((o) => o.remove());
       typing = typeInto(cardText, h ? Array.from(h.childNodes) : []);
-      if (credit) {
+      kids.filter((k) => k.classList.contains('credit')).forEach((src) => {
         const c = document.createElement('p');
-        c.className = 'credit';
+        c.className = src.className;
+        if (src.dir) c.dir = src.dir;
         cardEl.appendChild(c);
-        const tok = typeToken;
-        typing = typing.then(() => (tok === typeToken ? typeInto(c, Array.from(credit.childNodes)) : null));
-      }
+        typing = typing.then(() => (current === i ? typeInto(c, Array.from(src.childNodes)) : null));
+      });
     } else {
       subsInner.classList.toggle('vocal', b.vocal);
       typing = typeInto(subsInner, kids);

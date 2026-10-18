@@ -236,3 +236,5 @@ button { font: inherit; color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
 }
+.card-title .credit.q { margin-top: clamp(10px, 2vh, 20px); color: var(--white); }
+.card-title .credit.names { margin-top: clamp(8px, 1.4vh, 14px); font-family: var(--f-body); color: var(--gold-2); letter-spacing: .02em; }
