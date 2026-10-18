@@ -9,7 +9,10 @@
   const R = 1;
   // camera "shots": lat, lon, altitude above the surface (in Earth radii), tilt (deg)
   const PLACES = {
+    deep:    { lat: 18, lon: -20, alt: 9, tilt: 0 },
     space:   { lat: 22, lon: 20, alt: 2.6, tilt: 0 },
+    riverN:  { lat: 32.72, lon: 35.6, alt: 0.05, tilt: 52 },
+    riverS:  { lat: 31.78, lon: 35.55, alt: 0.05, tilt: 52 },
     world:   { lat: 28, lon: 36, alt: 1.6, tilt: 0 },
     region:  { lat: 30.6, lon: 37.5, alt: 0.42, tilt: 18 },
     jordan:  { lat: 30.9, lon: 36.4, alt: 0.15, tilt: 28 },
@@ -27,14 +30,14 @@
   const PINS = {
     amman: [31.95, 35.93], petra: [30.33, 35.44], jerash: [32.28, 35.89], rum: [29.57, 35.42],
     deadsea: [31.5, 35.5], aqaba: [29.53, 35.0], irbid: [32.55, 35.85], zarqa: [32.07, 36.09],
-    ajloun: [32.33, 35.75], river: [31.84, 35.55],
+    ajloun: [32.33, 35.75], river: [32.3, 35.57],
   };
 
   let renderer, scene, camera, earth, hiPatch, overlay, overlayCtx, overlayTex, atmo, stars, borders = [];
   let canvasEl, labelsEl, visible = false, raf = 0, last = 0;
   const pinEls = {};
   const cam = { lat: 22, lon: -10, alt: 2.6, tilt: 0 };
-  let tween = null;
+  let tween = null, flyDur = 0, queued = null, label = null;
   let spin = 0.02; // idle drift in deg/frame-ish
   let highlight = [];
   let activePins = [];
@@ -63,9 +66,14 @@
     // high-resolution patch over the Levant (lon 30–42E, lat 26–37N), NASA Blue Marble 500 m
     const hiTex = loader.load('assets/globe/levant-hi.jpg');
     hiTex.anisotropy = 8;
+    // feathered edges so the sharper patch blends into the base globe
+    const fc = document.createElement('canvas'); fc.width = fc.height = 256;
+    const fg = fc.getContext('2d'); fg.fillStyle = '#000'; fg.fillRect(0, 0, 256, 256);
+    fg.filter = 'blur(18px)'; fg.fillStyle = '#fff'; fg.fillRect(40, 40, 176, 176);
+    const feather = new T.CanvasTexture(fc);
     hiPatch = new T.Mesh(
       new T.SphereGeometry(R * 1.0004, 96, 96, (30 + 180) * D2R, 12 * D2R, (90 - 37) * D2R, 11 * D2R),
-      new T.MeshPhongMaterial({ map: hiTex, shininess: 8, specular: new T.Color(0x222222), transparent: true, opacity: 0 })
+      new T.MeshPhongMaterial({ map: hiTex, alphaMap: feather, shininess: 8, specular: new T.Color(0x222222), transparent: true, opacity: 0 })
     );
     scene.add(hiPatch);
 
@@ -131,6 +139,7 @@
   }
 
   // equirectangular overlay: lon 24–50, lat 12–40
+  let veilMask = null;
   function drawOverlay() {
     if (!borderData) return;
     const ctx = overlayCtx, W = 2048, H = 2048;
@@ -150,6 +159,13 @@
     const g = ctx.createRadialGradient(px(36.5), py(31), 40, px(36.5), py(31), W * 0.55);
     g.addColorStop(0, 'rgba(8,8,6,0.42)'); g.addColorStop(0.7, 'rgba(8,8,6,0.30)'); g.addColorStop(1, 'rgba(8,8,6,0)');
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    // fade the veil to nothing at the overlay's edges (no visible seam)
+    if (!veilMask) {
+      veilMask = document.createElement('canvas'); veilMask.width = veilMask.height = 512;
+      const m = veilMask.getContext('2d'); m.filter = 'blur(40px)'; m.fillStyle = '#fff'; m.fillRect(80, 80, 352, 352);
+    }
+    ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(veilMask, 0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
     // cut Jordan and the highlighted countries out of the veil, then tint them
     ctx.globalCompositeOperation = 'destination-out';
     ['JOR', ...highlight].forEach((id) => { if (path(id)) { ctx.fillStyle = '#000'; ctx.fill('evenodd'); } });
@@ -172,6 +188,8 @@
 
   function go(cmd) {
     if (!cmd) return;
+    if (/\bdeep\b/.test(cmd)) { Object.assign(cam, PLACES.deep); cmd = cmd.replace('deep', 'space'); flyDur = 7000; }
+    if (/\briver-flight\b/.test(cmd)) { cmd = cmd.replace('river-flight', 'riverN'); queued = 'riverS'; }
     const parts = cmd.split(/\s+/);
     let shot = null; const hl = []; const pins = [];
     parts.forEach((p) => {
@@ -189,7 +207,8 @@
       const dist = Math.hypot(shot.lat - from.lat, ((shot.lon - from.lon + 540) % 360) - 180);
       const peak = Math.max(shot.alt, from.alt, Math.min(1.2, dist * 0.02));
       let dlon = ((shot.lon - from.lon + 540) % 360) - 180;
-      tween = { from, to: shot, dlon, peak, t0: performance.now(), dur: Math.min(4200, 1800 + dist * 60) };
+      tween = { from, to: shot, dlon, peak, t0: performance.now(), dur: flyDur || Math.min(4200, 1800 + dist * 60), next: queued };
+      flyDur = 0; queued = null;
       spin = shot.alt > 1 ? 0.02 : 0;
     }
   }
@@ -206,7 +225,10 @@
       const arc = Math.sin(Math.PI * e) * Math.max(0, tween.peak - Math.max(tween.from.alt, tween.to.alt)) * 0.6;
       cam.alt = lin + arc;
       cam.tilt = tween.from.tilt + (tween.to.tilt - tween.from.tilt) * e;
-      if (t >= 1) tween = null;
+      if (t >= 1) {
+        const nx = tween.next; tween = null;
+        if (nx) { const sh = PLACES[nx]; tween = { from: { ...cam }, to: sh, dlon: sh.lon - cam.lon, peak: 0, t0: now, dur: 9000 }; }
+      }
     } else if (spin) {
       cam.lon += spin * dt * 0.06;
     } else {
@@ -241,10 +263,11 @@
     const w = window.innerWidth, h = window.innerHeight;
     Object.keys(pinEls).forEach((k) => {
       const el = pinEls[k];
-      const on = activePins.includes(k) && PINS[k];
+      const ll = k === 'label' ? (label && label.ll) : PINS[k];
+      const on = k === 'label' ? !!label : activePins.includes(k) && PINS[k];
       el.classList.toggle('on', !!on);
       if (!on) return;
-      const p = vec(PINS[k][0], PINS[k][1], R * 1.001);
+      const p = vec(ll[0], ll[1], R * 1.001);
       // hide when on the far side
       const toCam = camera.position.clone().sub(p).normalize();
       const facing = toCam.dot(p.clone().normalize()) > 0.05;
@@ -261,5 +284,10 @@
     if (v && !raf) { last = 0; raf = requestAnimationFrame(step); }
   }
 
-  window.JGlobe = { init, setVisible, go, resize };
+  const CENTRES = { SYR: [35.0, 38.6], IRQ: [33.2, 43.6], SAU: [28.0, 41.5], PSX: [31.9, 35.25] };
+  function setLabel(id, text) {
+    label = id && CENTRES[id] ? { ll: CENTRES[id] } : null;
+    const el = document.getElementById('country-label'); if (el) el.textContent = text || '';
+  }
+  window.JGlobe = { init, setVisible, go, resize, setLabel };
 })();

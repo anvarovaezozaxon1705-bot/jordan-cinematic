@@ -1,6 +1,7 @@
-/* المملكة الأردنية الهاشمية — the film engine (no dependencies besides the optional globe)
-   Scroll position picks the current beat; each beat sets the shot (globe / footage / object)
-   and types its text as a subtitle. Autoplay walks through the beats like a documentary. */
+/* الأُرْدُنُّ — film engine v2 (no dependencies besides the optional globe / flag / sound modules)
+   The page scrolls through an invisible script: one beat per sentence of the speech.
+   A beat sets the shot (footage / globe / flag / emblem), then plays timed steps (data-t) that reveal
+   the short on-screen fragments and move the camera. Autoplay walks the film at speaking pace. */
 (() => {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
@@ -9,399 +10,366 @@
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const AR = (n) => String(n).padStart(2, '0').replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 
-  /* ---------- footage ---------- */
-  const V = (src, poster) => ({ src: `assets/video/${src}`, poster: `assets/img/${poster}` });
-  const VIDEOS = {
-    's01-deir': V('s01-deir.mp4', 's01.jpg'),
-    's02-amman': V('s02-amman.mp4', 's02.jpg'),
-    's03-flag': V('s03-flag.mp4', 's03.jpg'),
-    's04-deadsea': V('s04-deadsea.mp4', 's04.jpg'),
-    's05-map': V('s05-map.mp4', 's05.jpg'),
-    's07-souk': V('s07-souk.mp4', 's07.jpg'),
-    's08-port': V('s08-port.mp4', 's08.jpg'),
-    's09-script': V('s09-script.mp4', 's09.jpg'),
-    's10-coffee': V('s10-coffee.mp4', 's10.jpg'),
-    's11-family': V('s11-family.mp4', 's11.jpg'),
-    's12-mezze': V('s12-mezze.mp4', 's12.jpg'),
-    's13-petra': V('s13-petra.mp4', 's13.jpg'),
-    's14-amman': V('s14-amman.mp4', 's14.jpg'),
-    's15-jerash': V('s15-jerash.mp4', 's15.jpg'),
-    's16-rum': V('s16-rum.mp4', 's16.jpg'),
-    's17-sea': V('s17-sea.mp4', 's17.jpg'),
-    's18-map': V('s18-map.mp4', 's18.jpg'),
-    'black': { src: '', poster: '' },
-    's19-camels': V('s19-camels.mp4', 's19.jpg'),
-    'c-hosp': V('c-hosp.mp4', 'c-hosp.jpg'),
-    ...Object.fromEntries(['amman', 'aqaba', 'bedouin', 'deadsea', 'food', 'jerash', 'people', 'petra', 'road', 'rum', 'shemagh']
-      .map((k) => [`m-${k}`, V(`m-${k}.mp4`, `m-${k}.jpg`)])),
+  /* ---------- media ---------- */
+  const V = (f, poster) => ({ type: 'video', src: `assets/video/${f}.mp4`, poster: `assets/img/${poster || f}.jpg` });
+  const I = (f, kb) => ({ type: 'image', src: `assets/img/${f}`, kb: kb || 'in' });
+  const MEDIA = {
+    's02-amman': V('s02-amman', 's02'), 's03-flag': V('s03-flag', 's03'), 's04-deadsea': V('s04-deadsea', 's04'),
+    's07-souk': V('s07-souk', 's07'), 's08-port': V('s08-port', 's08'), 's09-script': V('s09-script', 's09'),
+    's10-coffee': V('s10-coffee', 's10'), 's11-family': V('s11-family', 's11'), 's12-mezze': V('s12-mezze', 's12'),
+    's13-petra': V('s13-petra', 's13'), 's14-amman': V('s14-amman', 's14'), 'c-hosp': V('c-hosp'),
+    ...Object.fromEntries(['amman', 'bedouin', 'deadsea', 'jerash', 'people', 'petra', 'rum', 'shemagh', 'sunset', 'descent', 'flagpole', 'elder', 'man']
+      .map((k) => [`m-${k}`, V(`m-${k}`)])),
+    currency: I('jordan-currency.jpg', 'in'), embroidery: I('jordan-dress.jpg', 'in'),
+    dress: I('jordan-dress.jpg', 'down'), falafel: I('falafel.jpg', 'in'), maqluba: I('maqluba.jpg', 'in'), mansaf: I('s12-mansaf.jpg', 'in'),
   };
 
-  /* ---------- beats: resolve inherited state ---------- */
+  /* ---------- script ---------- */
   const chapters = $$('.ch');
   const beats = [];
+  let sectionNo = 0;
   chapters.forEach((ch, ci) => {
-    let scene = null, geo = null, ov = null, tag = null;
-    $$('.beat', ch).forEach((b, bi) => {
-      const d = b.dataset;
-      if (d.scene) { if (d.scene !== scene) tag = null; scene = d.scene; }
-      if (d.geo) geo = d.geo;
-      if (d.ov !== undefined) ov = d.ov === 'none' ? null : d.ov;
-      if (d.tag) tag = d.tag;
-      beats.push({ el: b, ch: ci, first: bi === 0, kind: d.kind || 'sub', scene: scene || 'globe', geo, ov, tag, vocal: b.classList.contains('vocal') });
+    const numbered = !['prologue', 'names'].includes(ch.id);
+    if (numbered) sectionNo++;
+    ch._n = numbered ? sectionNo : 0;
+    let scene = 'globe';
+    $$('.beat', ch).forEach((b) => {
+      if (b.dataset.scene) scene = b.dataset.scene;
+      beats.push({ el: b, ch: ci, scene: b.dataset.scene || scene, d: b.dataset,
+        speech: $$('.speech', b).map((p) => p.textContent).join(' '),
+        steps: $$('.frags > li', b).map((li) => ({ t: parseFloat(li.dataset.t) || 0, text: li.textContent, cls: li.className, d: li.dataset })) });
     });
   });
-  const total = chapters.length;
-  $('#dock-total').textContent = AR(total);
+  const sections = sectionNo;
+  $('#dock-total').textContent = AR(sections);
 
-  /* ---------- stage elements ---------- */
+  /* ---------- layers ---------- */
   const reelsEl = $('#reels');
   const reels = {};
-  // a reel is one video, or a playlist "a+b+c": the presentation's own clip first, then the extra footage
   function reel(key) {
     if (reels[key]) return reels[key];
-    const wrap = document.createElement('div');
-    wrap.className = 'reel';
+    const wrap = document.createElement('div'); wrap.className = 'layer reel';
     const keys = key.split('+');
-    const vids = keys.map((k, i) => {
-      const meta = VIDEOS[k];
-      const v = document.createElement('video');
-      v.muted = true; v.playsInline = true; v.preload = 'none';
-      v.loop = keys.length === 1;
-      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
-      if (meta && meta.src) { v.poster = meta.poster; v.src = meta.src; }
-      if (i === 0) v.classList.add('cur');
-      wrap.appendChild(v);
-      return v;
+    const items = keys.map((k, i) => {
+      const m = MEDIA[k] || {};
+      let el;
+      if (m.type === 'image') { el = document.createElement('img'); el.src = m.src; el.alt = ''; el.className = `kb-${m.kb}`; el.decoding = 'async'; }
+      else { el = document.createElement('video'); el.muted = true; el.playsInline = true; el.preload = 'none'; el.loop = keys.length === 1;
+        el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); if (m.src) { el.poster = m.poster; el.src = m.src; } }
+      if (i === 0) el.classList.add('cur');
+      wrap.appendChild(el); return el;
     });
-    const r = { wrap, vids, idx: 0, timer: 0, active: false };
-    if (vids.length > 1) {
-      vids.forEach((v, i) => v.addEventListener('ended', () => {
-        if (!r.active || i !== r.idx) return;
-        const n = (i + 1) % vids.length;
-        playAt(r, n);
-      }));
-    }
-    reelsEl.appendChild(wrap);
-    reels[key] = r;
-    return r;
+    const r = { el: wrap, items, idx: 0, active: false, timer: 0 };
+    items.forEach((v, i) => { if (v.tagName === 'VIDEO' && items.length > 1) v.addEventListener('ended', () => { if (r.active && i === r.idx) playAt(r, (i + 1) % items.length); }); });
+    reelsEl.appendChild(wrap); reels[key] = r; return r;
   }
   function playAt(r, n) {
-    r.idx = n;
-    r.vids.forEach((v, i) => v.classList.toggle('cur', i === n));
-    const v = r.vids[n];
-    if (!v.src || reduceMotion) return;
-    if (v.preload === 'none') v.preload = 'auto';
-    try { v.currentTime = 0; } catch (e) { /* not loaded yet */ }
-    const p = v.play(); if (p && p.catch) p.catch(() => {});
-    // warm up the next clip in the playlist
-    const nx = r.vids[(n + 1) % r.vids.length];
-    if (nx !== v && nx.preload === 'none') nx.preload = 'auto';
-    // pause the others once the cross-fade is over
-    setTimeout(() => { r.vids.forEach((o, i) => { if (i !== r.idx) o.pause(); }); }, 1600);
-  }
-  const globeCanvas = $('#globe');
-  let globeReady = false;
-  try {
-    if (window.JGlobe) { window.JGlobe.init(globeCanvas, $('#globe-pins')); globeReady = true; }
-  } catch (e) { globeReady = false; }
-  // without WebGL fall back to the satellite still
-  if (!globeReady) VIDEOS.globe = { src: '', poster: 'assets/img/s05.jpg' };
-
-  const ovs = Object.fromEntries($$('.ov').map((o) => [o.dataset.ov, o]));
-  const cardEl = $('#card-title'), cardText = $('#card-text'), cardN = $('#card-n');
-  const subsInner = $('#subs-inner');
-  const tagEl = $('#tag'), tagText = $('#tag-text');
-  const hudNum = $('#hud-num'), hudName = $('#hud-name'), dockCur = $('#dock-cur');
-  const bar = $('.progress__bar');
-  const hint = $('#hint');
-
-  /* ---------- typewriter ---------- */
-  const seg = (typeof Intl !== 'undefined' && Intl.Segmenter) ? new Intl.Segmenter('ar', { granularity: 'grapheme' }) : null;
-  const graphemes = (s) => (seg ? Array.from(seg.segment(s), (x) => x.segment) : Array.from(s));
-  let typeToken = 0;
-  const CPS = 34; // characters per second
-
-  // copies `src` children into `dest`, then reveals the text grapheme by grapheme; resolves when done
-  function typeInto(dest, src, opts = {}) {
-    const my = ++typeToken;
-    dest.innerHTML = '';
-    src.forEach((n) => dest.appendChild(n.cloneNode(true)));
-    const caret = document.createElement('span');
-    caret.className = 'caret';
-    if (reduceMotion || opts.instant) {
-      $$('li', dest).forEach((li) => li.classList.add('in'));
-      return Promise.resolve();
+    r.idx = n; r.items.forEach((v, i) => v.classList.toggle('cur', i === n));
+    const v = r.items[n];
+    if (v.tagName === 'VIDEO' && v.src && !reduceMotion) {
+      if (v.preload === 'none') v.preload = 'auto';
+      try { v.currentTime = 0; } catch (e) { /* not ready */ }
+      const p = v.play(); if (p && p.catch) p.catch(() => {});
+      const nx = r.items[(n + 1) % r.items.length]; if (nx !== v && nx.preload === 'none') nx.preload = 'auto';
     }
-    // collect text nodes in order, remember full text, blank them
-    const walker = document.createTreeWalker(dest, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while (walker.nextNode()) { const t = walker.currentNode; if (t.nodeValue.trim() || t.nodeValue === ' ') nodes.push({ t, g: graphemes(t.nodeValue) }); }
-    nodes.forEach((n) => { n.t.nodeValue = ''; });
-    return new Promise((resolve) => {
-      let ni = 0, gi = 0, lastLi = null, t0 = performance.now(), shown = 0;
-      function tick(now) {
-        if (my !== typeToken) return resolve();
-        const want = Math.floor((now - t0) / 1000 * CPS);
-        while (shown < want && ni < nodes.length) {
-          const n = nodes[ni];
-          const li = n.t.parentElement && n.t.parentElement.closest('li');
-          if (li && li !== lastLi) { li.classList.add('in'); lastLi = li; }
-          n.t.nodeValue += n.g[gi++] || '';
-          shown++;
-          if (gi >= n.g.length) { ni++; gi = 0; }
-        }
-        const cur = nodes[Math.min(ni, nodes.length - 1)];
-        if (cur && cur.t.parentNode) cur.t.parentNode.insertBefore(caret, cur.t.nextSibling);
-        if (ni >= nodes.length) { setTimeout(() => caret.remove(), 900); return resolve(); }
-        requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    });
+    setTimeout(() => r.items.forEach((o, i) => { if (i !== r.idx && o.tagName === 'VIDEO') o.pause(); }), 1600);
+  }
+  const globeEl = $('#globe'), pinsEl = $('#globe-pins'), flagEl = $('#flagstage'), embEl = $('#emblem');
+  let globeOK = false, flagOK = false;
+  try { if (window.JGlobe) { window.JGlobe.init(globeEl, pinsEl); globeOK = true; } } catch (e) { globeOK = false; }
+  try { if (window.JFlag) { window.JFlag.init($('#flagcanvas')); flagOK = true; } } catch (e) { flagOK = false; }
+  if (!globeOK) MEDIA.globe = I('s05.jpg', 'in');
+  if (!flagOK) MEDIA.flag = V('s03-flag', 's03');
+
+  let curScene = null, curLayer = null;
+  function layerFor(scene) {
+    if (scene === 'globe' && globeOK) return { el: globeEl, kind: 'globe' };
+    if (scene === 'flag' && flagOK) return { el: flagEl, kind: 'flag' };
+    if (scene === 'emblem') return { el: embEl, kind: 'emblem' };
+    if (scene === 'black') return { el: null, kind: 'black' };
+    const key = scene.replace(/^(v|img):/, '');
+    return { el: reel(key).el, kind: 'reel', r: reels[key] };
+  }
+  function setScene(scene, tr) {
+    if (scene === curScene) return;
+    const prev = curLayer, next = layerFor(scene);
+    curScene = scene; curLayer = next;
+    if (tr === 'star') starflash();
+    if (next.el) {
+      next.el.classList.remove('on');
+      next.el.dataset.tr = tr || 'fade';
+      void next.el.offsetWidth; // restart the entry animation
+      next.el.classList.add('on');
+    }
+    if (next.kind === 'globe') { window.JGlobe.setVisible(true); pinsEl.classList.add('on'); }
+    if (next.kind === 'flag') window.JFlag.setVisible(true);
+    if (next.kind === 'reel' && !next.r.active) { next.r.active = true; playAt(next.r, 0); }
+    if (prev && prev.el && prev.el !== (next.el)) {
+      prev.el.classList.remove('on');
+      const p = prev;
+      setTimeout(() => {
+        if (curLayer === p) return;
+        if (p.kind === 'globe') { window.JGlobe.setVisible(false); pinsEl.classList.remove('on'); }
+        if (p.kind === 'flag') window.JFlag.setVisible(false);
+        if (p.kind === 'reel') { p.r.active = false; p.r.items.forEach((v) => v.tagName === 'VIDEO' && v.pause()); }
+      }, 1600);
+    }
+  }
+  function starflash() {
+    const s = $('#starflash'); s.classList.remove('go'); void s.getBoundingClientRect(); s.classList.add('go');
   }
 
-  /* ---------- render a beat ---------- */
-  let current = -1, curScene = null, globeHideTimer = 0, playTimer = 0, typing = Promise.resolve();
-  function render(i) {
+  /* ---------- emblem camera ---------- */
+  const EMB = {
+    silhouette: { x: .5, y: .5, s: .92, mode: 'silhouette' }, reveal: { x: .5, y: .5, s: 1, mode: 'reveal' }, full: { x: .5, y: .5, s: 1 },
+    crown: { x: .498, y: .12, s: 2.5 }, eagle: { x: .498, y: .43, s: 2.1 }, flags: { x: .5, y: .47, s: 1.45 }, globe: { x: .498, y: .578, s: 3.0 },
+    arms: { x: .5, y: .4, s: 1.75 }, plants: { x: .5, y: .69, s: 2.1 }, ribbon: { x: .5, y: .81, s: 1.9 }, out: { x: .5, y: .5, s: .7, mode: 'out' },
+  };
+  function emb(state) {
+    const st = EMB[state]; if (!st) return;
+    const img = $('.emblem__img', embEl);
+    img.style.setProperty('--s', st.s); img.style.setProperty('--x', ((0.5 - st.x) * 100).toFixed(2) + '%'); img.style.setProperty('--y', ((0.5 - st.y) * 100).toFixed(2) + '%');
+    embEl.dataset.mode = st.mode || 'lit';
+  }
+
+  /* ---------- fragments ---------- */
+  const fragLayer = $('#frags');
+  function clearFrags() {
+    $$('.frag', fragLayer).forEach((f) => { f.classList.add('out'); setTimeout(() => f.remove(), 900); });
+  }
+  function addFrag(step) {
+    const el = document.createElement('div');
+    el.className = 'frag ' + (step.cls || '');
+    if (step.cls && step.cls.includes('names')) el.dir = 'ltr';
+    el.textContent = step.text;
+    fragLayer.appendChild(el);
+    requestAnimationFrame(() => el.classList.add('in'));
+  }
+
+  /* ---------- play a beat ---------- */
+  let current = -1, timers = [], playTimer = 0;
+  const notes = $('#notes');
+  function applyActions(d, tr) {
+    if (d.scene) setScene(d.scene, tr);
+    if (d.geo && globeOK) window.JGlobe.go(d.geo);
+    if (d.flag && flagOK) window.JFlag.set(d.flag);
+    if (d.emb) emb(d.emb);
+  }
+  function render(i, instant) {
     if (i === current) return;
     const prev = beats[current];
     current = i;
-    const b = beats[i];
-    const ch = chapters[b.ch];
+    const b = beats[i], ch = chapters[b.ch];
+    timers.forEach(clearTimeout); timers = [];
 
-    // scene
-    if (b.scene !== curScene) {
-      curScene = b.scene;
-      if (b.scene === 'globe' && globeReady) {
-        clearTimeout(globeHideTimer);
-        window.JGlobe.setVisible(true);
-        Object.values(reels).forEach(hideReel);
-      } else {
-        const key = b.scene === 'globe' ? 'globe' : b.scene.replace(/^v:/, '');
-        const r = reel(key);
-        Object.entries(reels).forEach(([k, x]) => { if (x !== r) hideReel(x); });
-        showReel(r);
-        if (globeReady) { clearTimeout(globeHideTimer); globeHideTimer = setTimeout(() => window.JGlobe.setVisible(false), 1500); }
-      }
-    }
-    if (b.scene === 'globe' && globeReady && b.geo) window.JGlobe.go(b.geo);
+    // the shot
+    setScene(b.scene, b.d.tr);
+    if (b.scene === 'globe' && globeOK && b.d.geo) window.JGlobe.go(b.d.geo);
+    if (globeOK) { if (b.d.label) { const [id, txt] = b.d.label.split(':'); window.JGlobe.setLabel(id, txt); } else window.JGlobe.setLabel(null); }
+    if (b.scene === 'flag' || b.d.flag) { if (b.d.flag && flagOK) window.JFlag.set(b.d.flag); }
+    if (b.d.emb) emb(b.d.emb);
+    $('#dimmer').classList.toggle('on', !!b.d.dim);
 
-    // overlay object
-    const [ovName, ovArg] = (b.ov || '').split(':');
-    Object.entries(ovs).forEach(([k, o]) => o.classList.toggle('on', k === ovName));
-    if (ovs.flag) { if (ovName === 'flag' && ovArg) ovs.flag.dataset.hl = ovArg; else delete ovs.flag.dataset.hl; }
+    // fragments + timed steps
+    if (!b.d.keep) clearFrags();
+    fragLayer.dataset.layout = b.d.layout || (b.d.keep && prev ? fragLayer.dataset.layout : 'lower');
+    b.steps.forEach((s) => {
+      const run = () => { applyActions(s.d, s.d.tr || 'fade'); if (s.text.trim()) addFrag(s); };
+      if (instant || reduceMotion) run(); else timers.push(setTimeout(run, s.t * 1000));
+    });
+    root.classList.toggle('is-title', ['title', 'number', 'center', 'names'].includes(b.d.layout));
+    root.classList.toggle('is-names', ch.id === 'names');
 
-    // location tag
-    if (b.tag) { tagText.textContent = b.tag; tagEl.classList.add('on'); } else tagEl.classList.remove('on');
-
-    // chapter label
-    hudNum.textContent = AR(b.ch + 1);
-    dockCur.textContent = AR(b.ch + 1);
+    // chrome
     if (!prev || prev.ch !== b.ch) {
-      hudName.style.opacity = '0';
-      setTimeout(() => { hudName.textContent = ch.dataset.title || ''; hudName.style.opacity = ''; }, 250);
+      $('#hud-num').textContent = ch._n ? AR(ch._n) : '';
+      $('#hud-name').textContent = ch._n ? ch.dataset.title : '';
+      $('#dock-cur').textContent = AR(ch._n || (ch.id === 'prologue' ? 0 : sections));
       $$('.index-grid li').forEach((li, k) => li.classList.toggle('is-current', k === b.ch));
+      if (window.JSound) window.JSound.mood(ch.dataset.mood || 'space');
       if (history.replaceState) history.replaceState(null, '', `#${ch.id}`);
     }
-    bar.style.transform = `scaleX(${(i / (beats.length - 1)).toFixed(4)})`;
-    hint.classList.toggle('on', i === 0);
-
-    // text
-    const kids = Array.from(b.el.children);
-    root.classList.toggle('is-title', b.kind === 'title' || b.kind === 'finale');
-    root.classList.toggle('is-finale', b.kind === 'finale');
-    cardEl.classList.toggle('vocal', b.vocal);
-    if (b.kind === 'title' || b.kind === 'finale') {
-      cardN.textContent = AR(b.ch + 1);
-      subsInner.innerHTML = '';
-      const h = kids.find((k) => /^H[12]$/.test(k.tagName));
-      // lines under the title (closing screen): typed one after another
-      cardEl.querySelectorAll('.credit').forEach((o) => o.remove());
-      typing = typeInto(cardText, h ? Array.from(h.childNodes) : []);
-      kids.filter((k) => k.classList.contains('credit')).forEach((src) => {
-        const c = document.createElement('p');
-        c.className = src.className;
-        if (src.dir) c.dir = src.dir;
-        cardEl.appendChild(c);
-        typing = typing.then(() => (current === i ? typeInto(c, Array.from(src.childNodes)) : null));
-      });
-    } else {
-      subsInner.classList.toggle('vocal', b.vocal);
-      typing = typeInto(subsInner, kids);
-    }
+    $('.progress__bar').style.transform = `scaleX(${(i / (beats.length - 1)).toFixed(4)})`;
+    notes.textContent = b.speech;
     schedule();
   }
 
-  function showReel(r) {
-    clearTimeout(r.timer);
-    r.wrap.classList.add('on');
-    if (!r.active) { r.active = true; playAt(r, 0); }
-  }
-  function hideReel(r) {
-    if (!r.wrap.classList.contains('on')) return;
-    r.wrap.classList.remove('on');
-    clearTimeout(r.timer);
-    r.timer = setTimeout(() => { r.active = false; r.vids.forEach((v) => v.pause()); }, 1500);
-  }
-
-  /* ---------- scroll → beat ---------- */
+  /* ---------- scroll ↔ beat ---------- */
   let tops = [];
-  function layout() { tops = beats.map((b) => b.el.getBoundingClientRect().top + window.scrollY); }
+  const layout = () => { tops = beats.map((b) => b.el.getBoundingClientRect().top + window.scrollY); };
   function beatAt(y) {
-    const probe = y + window.innerHeight * 0.35;
-    let lo = 0, hi = tops.length - 1, ans = 0;
-    while (lo <= hi) { const m = (lo + hi) >> 1; if (tops[m] <= probe) { ans = m; lo = m + 1; } else hi = m - 1; }
-    return ans;
+    const probe = y + window.innerHeight * 0.35; let lo = 0, hi = tops.length - 1, a = 0;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (tops[m] <= probe) { a = m; lo = m + 1; } else hi = m - 1; }
+    return a;
   }
   let ticking = false;
+  // while a button/key jump is scrolling, ignore the beats it passes through
+  let lockTo = -1, lockUntil = 0;
   window.addEventListener('scroll', () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => { ticking = false; render(beatAt(window.scrollY)); });
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false; const at = beatAt(window.scrollY);
+      if (lockTo >= 0) { if (at !== lockTo && performance.now() < lockUntil) return; lockTo = -1; }
+      render(at);
+    });
   }, { passive: true });
-  window.addEventListener('resize', () => { layout(); if (globeReady) window.JGlobe.resize(); });
+  window.addEventListener('resize', () => { layout(); if (globeOK) window.JGlobe.resize(); });
   window.addEventListener('load', layout);
-
   function goBeat(i, instant) {
     i = Math.max(0, Math.min(beats.length - 1, i));
-    const y = tops[i] - window.innerHeight * 0.2 + 1;
-    window.scrollTo({ top: Math.max(0, y), behavior: instant || reduceMotion ? 'auto' : 'smooth' });
+    const smooth = !(instant || reduceMotion);
+    if (smooth) { lockTo = i; lockUntil = performance.now() + 2500; }
+    window.scrollTo({ top: Math.max(0, tops[i] - window.innerHeight * 0.2 + 1), behavior: smooth ? 'smooth' : 'auto' });
     render(i);
   }
-  const next = () => goBeat(current + 1);
-  const prev = () => goBeat(current - 1);
+  const next = () => goBeat(current + 1), prev = () => goBeat(current - 1);
 
-  /* ---------- autoplay ---------- */
+  /* ---------- autoplay at speaking pace ---------- */
   let playing = false;
-  function readTime(b) {
-    if (b.kind === 'title') return 2600;
-    if (b.kind === 'finale') return 6000;
-    const len = (b.el.textContent || '').trim().length;
-    if (!len) return 5200; // opening shot of the globe
-    return Math.min(9000, 1800 + len * 45);
+  const DEFAULT = { prologue: [7.5, 5, 5.5, 11], names: [8] };
+  function duration(b) {
+    const ch = chapters[b.ch]; const k = $$('.beat', ch).indexOf(b.el);
+    if (DEFAULT[ch.id]) return DEFAULT[ch.id][k] || 6;
+    const words = b.speech.split(/\s+/).filter(Boolean).length;
+    const last = b.steps.reduce((m, s) => Math.max(m, s.t), 0);
+    return Math.max(last + 3, 1.8 + words * 0.48, 4.5);
   }
   function schedule() {
     clearTimeout(playTimer);
     if (!playing) return;
     const my = current;
-    typing.then(() => {
+    playTimer = setTimeout(() => {
       if (!playing || my !== current) return;
-      playTimer = setTimeout(() => {
-        if (!playing || my !== current) return;
-        if (current >= beats.length - 1) { setPlaying(false); return; }
-        next();
-      }, readTime(beats[current]));
-    });
+      if (current >= beats.length - 1) { setPlaying(false); return; }
+      next();
+    }, duration(beats[current]) * 1000);
   }
   function setPlaying(on) {
-    playing = on;
-    root.classList.toggle('is-playing', on);
-    const b = $('[data-action="play"]');
-    b.setAttribute('aria-pressed', String(on));
-    b.setAttribute('aria-label', on ? 'إيقاف مؤقت' : 'تشغيل تلقائي');
-    if (on && current >= beats.length - 1) { goBeat(0, true); }
+    playing = on; root.classList.toggle('is-playing', on);
+    const b = $('[data-action="play"]'); b.setAttribute('aria-pressed', String(on)); b.setAttribute('aria-label', on ? 'إيقاف مؤقت' : 'تشغيل');
+    if (on && soundWanted !== false && window.JSound) setSound(true);
+    if (on && current >= beats.length - 1) goBeat(0, true);
     schedule();
   }
-  // a manual scroll or wheel pauses autoplay
   ['wheel', 'touchstart'].forEach((ev) => window.addEventListener(ev, () => { if (playing) setPlaying(false); }, { passive: true }));
 
-  /* ---------- index + credits sheets ---------- */
+  /* ---------- sound ---------- */
+  let soundWanted = null;
+  function setSound(on) {
+    if (!window.JSound) return;
+    soundWanted = on;
+    if (on) { window.JSound.mood(chapters[beats[Math.max(0, current)].ch].dataset.mood || 'space', 0.1); window.JSound.start(); } else window.JSound.stop();
+    root.classList.toggle('is-sound', on);
+    $('[data-action="sound"]').setAttribute('aria-pressed', String(on));
+  }
+  if (!window.JSound) $('[data-action="sound"]').hidden = true;
+
+  /* ---------- index + credits ---------- */
   const grid = $('#index-grid');
   chapters.forEach((ch, ci) => {
-    const first = beats.find((b) => b.ch === ci && b.scene !== 'globe') || beats.find((b) => b.ch === ci);
-    const key = first.scene.replace(/^v:/, '').split('+')[0];
-    const poster = first.scene === 'globe' || !VIDEOS[key] || !VIDEOS[key].poster ? 'assets/img/s05.jpg' : VIDEOS[key].poster;
+    const first = beats.find((b) => b.ch === ci);
+    const key = first.scene.replace(/^(v|img):/, '').split('+')[0];
+    const m = MEDIA[key];
+    const poster = m ? (m.poster || m.src) : 'assets/img/s05.jpg';
     const li = document.createElement('li');
-    li.innerHTML = `<a href="#${ch.id}"><img src="${poster}" alt="" loading="lazy"><span class="lbl"><b>${AR(ci + 1)}</b><span></span></span></a>`;
+    li.innerHTML = `<a href="#${ch.id}"><img src="${poster}" alt="" loading="lazy"><span class="lbl"><b></b><span></span></span></a>`;
+    li.querySelector('b').textContent = ch._n ? AR(ch._n) : '';
     li.querySelector('.lbl span').textContent = ch.dataset.title || '';
-    li.querySelector('a').addEventListener('click', (e) => { e.preventDefault(); closeSheets(); goBeat(beats.findIndex((b) => b.ch === ci), true); });
+    li.querySelector('a').addEventListener('click', (e) => { e.preventDefault(); closeSheets(); goBeat(beats.indexOf(first), true); });
     grid.appendChild(li);
   });
   const C = (title, by, license, url) => ({ title, by, license, url });
   const credits = [
-    C('Original presentation “travel TO” (Canva) — photos, background footage, emblem and flag', 'the author of the presentation, made with Canva media', 'Canva Content License', 'https://www.canva.com/design/DAHXb7NOykQ/oNvM7XAUMyInf90Co6uhkg/view'),
+    C('Speech text: the two Google Docs of the authors (Arabic part)', 'Анварова Э. · Юсупова Н.', '', 'https://docs.google.com/document/d/1ktR7EVlV9HRoWHnZUTT6ctnsMOepXSxXcsaYgGchWII/edit'),
+    C('Presentation “travel TO” (Canva): background footage, photos', 'the authors, with Canva media', 'Canva Content License', 'https://www.canva.com/design/DAHXb7NOykQ/oNvM7XAUMyInf90Co6uhkg/view'),
     C('Jordan... A Timeless Love', 'Jordan Tourism Board', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan..._A_Timeless_Love.webm'),
     C('Jordan The Bucket List 60s', 'Jordan Tourism Board', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan_The_Bucket_List_60s.webm'),
     C('The Siq at Petra', 'Ankur P', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:The_Siq_at_Petra_Ankur_P_Nov2018.webm'),
     C('VIDEO - Wadi Rum', 'Jorge Láscar', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:VIDEO_-_Wadi_Rum.webm'),
     C('Dead Sea, Israel and Jordan (Timelapse)', 'Google Earth', 'CC BY 3.0', 'https://commons.wikimedia.org/wiki/File:Dead_Sea,_Israel_and_Jordan.webm'),
+    C('Coat of arms of Jordan', 'Wikimedia Commons', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Coat_of_arms_of_Jordan.svg'),
+    C('Flag of Jordan', 'Wikimedia Commons', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Flag_of_Jordan.svg'),
+    C('Jordanian currency', 'Makeandtoss', 'CC0', 'https://commons.wikimedia.org/wiki/File:Jordanian_currency.jpg'),
+    C('Jordanian Felafel', 'Gopal Venkatesan', 'CC BY-SA 2.0', 'https://commons.wikimedia.org/wiki/File:Jordanian_Felafel.jpg'),
+    C('Jordan 2021 — Hikayet Sitti Restaurant: preparing maqluba', 'Fallaner', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan_2021_P114_Hikayet_Sitti_Restaurant_preparing_Maqluba.jpg'),
+    C('Traditional dress from Jordan and Palestine', 'Lama Sakhnini', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Traditional_dress_from_Jordan_and_Palestine.jpg'),
     C('Blue Marble Next Generation (globe imagery)', 'NASA Earth Observatory, Reto Stöckli', 'Public domain', 'https://visibleearth.nasa.gov/collection/1484/blue-marble'),
-    C('Natural Earth admin-0 country borders', 'Natural Earth', 'Public domain', 'https://www.naturalearthdata.com/'),
-    C('Fonts: Reem Kufi, Amiri, Noto Naskh Arabic', 'Google Fonts', 'SIL Open Font License 1.1', 'https://fonts.google.com/'),
-    C('3D engine: three.js r128', 'three.js authors', 'MIT', 'https://threejs.org/'),
+    C('Natural Earth admin-0 borders', 'Natural Earth', 'Public domain', 'https://www.naturalearthdata.com/'),
+    C('Fonts: Amiri, Reem Kufi, Noto Naskh Arabic', 'Google Fonts', 'SIL Open Font License 1.1', 'https://fonts.google.com/'),
+    C('three.js r128', 'three.js authors', 'MIT', 'https://threejs.org/'),
   ];
   const cl = $('#credits-list');
-  cl.innerHTML = '<h3>Sources</h3><ul></ul><p>Clips were trimmed, cropped, slowed and joined with cross-fades. Edited clips from CC BY-SA sources are shared under the same licence.</p>';
+  cl.innerHTML = '<h3>Sources</h3><ul></ul><p>Video clips were trimmed, cropped, slowed and joined with cross-fades; edited clips from CC BY-SA sources are shared under the same licence. The score is generated live in the browser.</p>';
   credits.forEach((c) => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
+    const li = document.createElement('li'); const a = document.createElement('a');
     a.href = c.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = c.title;
-    li.append(a, document.createTextNode(` — ${c.by ? c.by + ', ' : ''}${c.license}`));
-    cl.querySelector('ul').appendChild(li);
+    li.append(a, document.createTextNode(` — ${c.by}${c.license ? ', ' + c.license : ''}`)); cl.querySelector('ul').appendChild(li);
   });
 
   let lastFocus = null;
   function openSheet(id) {
-    lastFocus = document.activeElement;
-    const s = $(`#${id}`);
-    s.hidden = false;
-    requestAnimationFrame(() => s.classList.add('is-open'));
-    document.body.style.overflow = 'hidden';
+    lastFocus = document.activeElement; const s = $(`#${id}`); s.hidden = false;
+    requestAnimationFrame(() => s.classList.add('is-open')); document.body.style.overflow = 'hidden';
     if (id === 'index') $('[data-action="index"]').setAttribute('aria-expanded', 'true');
     (s.querySelector('.is-current a') || s.querySelector('.sheet__close')).focus({ preventScroll: true });
   }
   function closeSheets() {
     $$('.sheet').forEach((s) => { if (s.hidden) return; s.classList.remove('is-open'); setTimeout(() => { s.hidden = true; }, 300); });
-    document.body.style.overflow = '';
-    $('[data-action="index"]').setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = ''; $('[data-action="index"]').setAttribute('aria-expanded', 'false');
     if (lastFocus) lastFocus.focus({ preventScroll: true });
   }
   const anyOpen = () => $$('.sheet').some((s) => !s.hidden);
 
-  /* ---------- buttons ---------- */
+  /* ---------- controls ---------- */
   const fsOk = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
   if (!fsOk) $('[data-action="fullscreen"]').hidden = true;
   function toggleFs() {
     try {
       if (document.fullscreenElement || document.webkitFullscreenElement) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
       else { const r = (root.requestFullscreen || root.webkitRequestFullscreen).call(root); if (r && r.catch) r.catch(() => {}); }
-    } catch (e) { /* not allowed here */ }
+    } catch (e) { /* not allowed */ }
   }
   document.addEventListener('click', (e) => {
-    const b = e.target.closest('[data-action]');
-    if (!b) return;
+    const b = e.target.closest('[data-action]'); if (!b) return;
     const a = b.dataset.action;
     if (a === 'next') { setPlaying(false); next(); }
     else if (a === 'prev') { setPlaying(false); prev(); }
     else if (a === 'play') setPlaying(!playing);
+    else if (a === 'sound') setSound(!(soundWanted === true));
     else if (a === 'index') openSheet('index');
     else if (a === 'credits') openSheet('credits');
     else if (a === 'close') closeSheets();
     else if (a === 'fullscreen') toggleFs();
   });
   $$('.sheet').forEach((s) => s.addEventListener('click', (e) => { if (e.target === s) closeSheets(); }));
-
-  /* ---------- keyboard (and presentation clickers) ---------- */
+  // touch: swipe left/right moves one sentence (vertical swipes scroll as usual)
+  let tx = 0, ty = 0;
+  window.addEventListener('touchstart', (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) (dx < 0 ? next : prev)();
+  }, { passive: true });
   document.addEventListener('keydown', (e) => {
     if (e.altKey || e.ctrlKey || e.metaKey) return;
     if (anyOpen()) { if (e.key === 'Escape') closeSheets(); return; }
     const tag = (e.target.tagName || '').toLowerCase();
     switch (e.key) {
-      case 'PageDown': case 'ArrowDown': case 'ArrowLeft': case 'Enter':
-        if (e.key === 'Enter' && (tag === 'button' || tag === 'a')) return;
-        e.preventDefault(); setPlaying(false); next(); break;
-      case 'PageUp': case 'ArrowUp': case 'ArrowRight':
-        e.preventDefault(); setPlaying(false); prev(); break;
-      case ' ':
-        if (tag === 'button' || tag === 'a') return;
-        e.preventDefault(); setPlaying(!playing); break;
-      case 'Home': e.preventDefault(); setPlaying(false); goBeat(0); break;
-      case 'End': e.preventDefault(); setPlaying(false); goBeat(beats.length - 1); break;
+      case 'PageDown': case 'ArrowDown': case 'ArrowLeft': e.preventDefault(); setPlaying(false); next(); break;
+      case 'PageUp': case 'ArrowUp': case 'ArrowRight': e.preventDefault(); setPlaying(false); prev(); break;
+      case 'Enter': if (tag === 'button' || tag === 'a') return; e.preventDefault(); setPlaying(false); next(); break;
+      case ' ': if (tag === 'button' || tag === 'a') return; e.preventDefault(); setPlaying(!playing); break;
+      case 'Home': e.preventDefault(); goBeat(0); break;
+      case 'End': e.preventDefault(); goBeat(beats.length - 1); break;
       case 'f': case 'F': case 'ب': if (fsOk) toggleFs(); break;
       case 'g': case 'G': case 'ل': openSheet('index'); break;
-      case 'p': case 'P': case 'ح': setPlaying(!playing); break;
+      case 'm': case 'M': case 'ة': setSound(!(soundWanted === true)); break;
+      case 'n': case 'N': case 'ى': notes.hidden = !notes.hidden; break;
       default: break;
     }
   });
+  // the closing frame hides the controls until the pointer moves
+  let idle = 0;
+  window.addEventListener('pointermove', () => { root.classList.add('chrome-awake'); clearTimeout(idle); idle = setTimeout(() => root.classList.remove('chrome-awake'), 2200); }, { passive: true });
 
   /* ---------- start ---------- */
   layout();

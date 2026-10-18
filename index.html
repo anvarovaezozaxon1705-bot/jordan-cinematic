@@ -3,247 +3,189 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>المملكة الأردنية الهاشمية</title>
-<meta name="description" content="المملكة الأردنية الهاشمية — رحلة سينمائية تفاعلية">
+<title>الأُرْدُنُّ</title>
+<meta name="description" content="الأُرْدُنُّ — رحلة وثائقية تفاعلية">
 <meta name="theme-color" content="#0B0B0A">
-<meta property="og:title" content="المملكة الأردنية الهاشمية">
+<meta property="og:title" content="الأُرْدُنُّ">
 <meta property="og:image" content="assets/img/s01.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B0B0A'/%3E%3Cpath d='M32 10l5.5 11.5L50 18l-5 11.8L56 36l-12 3.2L46 52l-14-6-14 6 2-12.8L8 36l11-6.2L14 18l12.5 3.5z' fill='%23C9A66B'/%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/ReemKufi-var-arabic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Amiri-700-arabic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/film.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
 
-<!-- ================= STAGE (what the audience looks at) ================= -->
+<!-- ================= STAGE ================= -->
 <div class="stage" aria-hidden="true">
   <canvas class="globe" id="globe"></canvas>
   <div class="globe-pins" id="globe-pins">
-    <span class="pin" data-pin="amman"><i></i><b>عمّان</b></span>
-    <span class="pin" data-pin="petra"><i></i><b>البتراء</b></span>
-    <span class="pin" data-pin="jerash"><i></i><b>جرش</b></span>
-    <span class="pin" data-pin="rum"><i></i><b>وادي رم</b></span>
-    <span class="pin" data-pin="deadsea"><i></i><b>البحر الميت</b></span>
-    <span class="pin" data-pin="aqaba"><i></i><b>العقبة</b></span>
-    <span class="pin" data-pin="irbid"><i></i><b>إربد</b></span>
-    <span class="pin" data-pin="zarqa"><i></i><b>الزرقاء</b></span>
-    <span class="pin" data-pin="ajloun"><i></i><b>عجلون</b></span>
-    <span class="pin" data-pin="river"><i></i><b>نهر الأردن</b></span>
+    <span class="pin" data-pin="amman"><i></i><b>عَمَّانُ</b></span>
+    <span class="pin" data-pin="zarqa"><i></i><b>الزَّرْقَاءُ</b></span>
+    <span class="pin" data-pin="irbid"><i></i><b>إِرْبِدُ</b></span>
+    <span class="pin" data-pin="petra"><i></i><b>الْبَتْرَاءُ</b></span>
+    <span class="pin" data-pin="rum"><i></i><b>وَادِي رَمٍّ</b></span>
+    <span class="pin" data-pin="deadsea"><i></i><b>الْبَحْرُ الْمَيِّتُ</b></span>
+    <span class="pin" data-pin="jerash"><i></i><b>جَرَشُ</b></span>
+    <span class="pin" data-pin="river"><i></i><b>نَهْرُ الأُرْدُنِّ</b></span>
+    <span class="pin pin--label" data-pin="label"><b id="country-label"></b></span>
   </div>
   <div class="reels" id="reels"></div>
-  <div class="overlays">
-    <div class="ov ov-flag" data-ov="flag">
-      <div class="flag3d">
-        <span class="fs fs-black"></span><span class="fs fs-white"></span><span class="fs fs-green"></span>
-        <span class="fs-red"><svg viewBox="0 0 100 100"><path d="M50.0 4.0L59.5 30.2L86.0 21.3L71.4 45.1L94.8 60.2L67.2 63.7L70.0 91.4L50.0 72.0L30.0 91.4L32.8 63.7L5.2 60.2L28.6 45.1L14.0 21.3L40.5 30.2Z"/></svg></span>
-      </div>
-    </div>
-    <div class="ov ov-emblem" data-ov="emblem"><figure class="medal"><img src="assets/img/emblem.jpg" alt=""></figure></div>
-    <div class="ov ov-photos" data-ov="photos">
-      <figure class="card c1"><img src="assets/img/s06-b.jpg" alt=""></figure>
-      <figure class="card c2"><img src="assets/img/s06-a.jpg" alt=""></figure>
-      <figure class="card c3"><img src="assets/img/s06-c.jpg" alt=""></figure>
-    </div>
-    <div class="ov ov-mansaf" data-ov="mansaf"><figure class="arch"><img src="assets/img/s12-mansaf.jpg" alt=""></figure></div>
-  </div>
+  <div class="flagstage" id="flagstage"><canvas id="flagcanvas"></canvas></div>
+  <div class="emblem" id="emblem"><div class="emblem__light"></div><img class="emblem__img" src="assets/img/emblem-official.png" alt=""></div>
   <div class="grade"></div>
+  <div class="dimmer" id="dimmer"></div>
   <div class="letterbox"><i></i><i></i></div>
   <div class="grain"></div>
-
-  <!-- chapter card (big typed title) -->
-  <div class="card-title" id="card-title"><span class="card-title__n" id="card-n"></span><div class="card-title__text" id="card-text"></div><span class="card-title__line"></span></div>
-  <!-- location tag -->
-  <div class="tag" id="tag"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="tag-text"></span></div>
-  <!-- subtitles -->
-  <div class="subs" id="subs"><div class="subs__inner" id="subs-inner"></div></div>
+  <svg class="starflash" id="starflash" viewBox="0 0 100 100"><path d="M50.0 4.0L59.5 30.2L86.0 21.3L71.4 45.1L94.8 60.2L67.2 63.7L70.0 91.4L50.0 72.0L30.0 91.4L32.8 63.7L5.2 60.2L28.6 45.1L14.0 21.3L40.5 30.2Z"/></svg>
+  <div class="frag-layer" id="frags"></div>
+  <div class="shutter" id="shutter"></div>
 </div>
+
+<!-- presenter notes: the full speech of the current moment (press N) -->
+<aside class="notes" id="notes" aria-live="polite" hidden></aside>
 
 <!-- ================= HUD ================= -->
 <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
 <header class="hud">
-  <p class="hud__chapter"><span class="hud__num" id="hud-num">٠١</span><span class="hud__sep"></span><span class="hud__name" id="hud-name"></span></p>
+  <p class="hud__chapter"><span class="hud__num" id="hud-num"></span><span class="hud__sep"></span><span class="hud__name" id="hud-name"></span></p>
   <div class="hud__tools">
-    <button class="btn" type="button" data-action="credits" aria-label="مصادر الصور والفيديو"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
-    <button class="btn" type="button" data-action="index" aria-label="فهرس الشرائح" aria-expanded="false" aria-controls="index"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+    <button class="btn" type="button" data-action="sound" aria-label="الصوت" aria-pressed="false"><svg class="i-off" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM17 9l4 6M21 9l-4 6"/></svg><svg class="i-on" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM17 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12"/></svg></button>
+    <button class="btn" type="button" data-action="credits" aria-label="المصادر"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg></button>
+    <button class="btn" type="button" data-action="index" aria-label="الفهرس" aria-expanded="false" aria-controls="index"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
     <button class="btn" type="button" data-action="fullscreen" aria-label="ملء الشاشة"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
   </div>
 </header>
-<div class="dock" role="group" aria-label="التحكم في العرض">
+<div class="dock" role="group" aria-label="التحكم">
   <button class="btn" type="button" data-action="prev" aria-label="السابق"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
-  <button class="btn btn--play" type="button" data-action="play" aria-label="تشغيل تلقائي" aria-pressed="false"><svg class="i-play" viewBox="0 0 24 24"><path d="M16 5v14L6 12z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  <button class="btn btn--play" type="button" data-action="play" aria-label="تشغيل" aria-pressed="false"><svg class="i-play" viewBox="0 0 24 24"><path d="M16 5v14L6 12z"/></svg><svg class="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
   <button class="btn" type="button" data-action="next" aria-label="التالي"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
-  <span class="dock__count" aria-hidden="true"><b id="dock-cur">٠١</b><i>/</i><span id="dock-total">١٩</span></span>
+  <span class="dock__count" aria-hidden="true"><b id="dock-cur"></b><i>/</i><span id="dock-total"></span></span>
 </div>
-<div class="hint" id="hint" aria-hidden="true"><span class="hint__mouse"><span></span></span></div>
 
-<div class="sheet" id="index" role="dialog" aria-modal="true" aria-label="فهرس الشرائح" hidden>
+<div class="sheet" id="index" role="dialog" aria-modal="true" aria-label="الفهرس" hidden>
   <button class="btn sheet__close" type="button" data-action="close" aria-label="إغلاق"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <ol class="index-grid" id="index-grid"></ol>
 </div>
-<div class="sheet" id="credits" role="dialog" aria-modal="true" aria-label="مصادر الصور والفيديو" hidden>
+<div class="sheet" id="credits" role="dialog" aria-modal="true" aria-label="المصادر" hidden>
   <button class="btn sheet__close" type="button" data-action="close" aria-label="إغلاق"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <div class="credits" dir="ltr" lang="en" id="credits-list"></div>
 </div>
 
-<!-- ================= SCRIPT (the presentation text; scroll track) =================
-     Every slide = one chapter, in the original order. Every beat = one subtitle.
-     data-scene: what is on screen (globe | v:<video> )   data-geo: globe camera / highlights
-     data-ov: overlay object   data-tag: location tag (a name taken from the slide text) -->
+<!-- ================= SCRIPT =================
+     Every section = one part of the speech, in its order. Every beat = one sentence of the speech (.speech, hidden)
+     with its on-screen fragments (.frags > li, timed by data-t). data-scene / data-geo / data-flag / data-emb set the shot. -->
 <main class="script" id="script">
 
-<section class="ch" id="s1" data-title="المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ">
-  <div class="beat vocal" data-scene="globe" data-geo="space"></div>
-  <div class="beat vocal" data-scene="globe" data-geo="jordan"></div>
-  <div class="beat vocal" data-kind="title" data-scene="v:s01-deir"><h1>المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</h1></div>
+<section class="ch" id="prologue" data-title="الأُرْدُنُّ" data-mood="space">
+  <div class="beat" data-scene="globe" data-geo="deep" data-tr="fade"></div>
+  <div class="beat" data-geo="world"></div>
+  <div class="beat" data-geo="jordan" data-layout="title"><ol class="frags"><li data-t="1.2" class="t">الأُرْدُنُّ</li></ol></div>
+  <div class="beat" data-tr="drop"><ol class="frags"><li data-t="0" data-scene="v:m-descent"></li><li data-t="6.2" data-scene="v:s02-amman"></li></ol></div>
 </section>
 
-<section class="ch" id="s2" data-title="مَعْلُومَاتٌ عَامَّةٌ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="amman pin:amman"><h2>مَعْلُومَاتٌ عَامَّةٌ</h2></div>
-  <div class="beat vocal" data-scene="v:s02-amman"><p><b>الاسْمُ الرَّسْمِيُّ:</b> المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</p></div>
-  <div class="beat vocal" data-scene="v:m-amman" data-tag="عَمَّانُ"><p><b>العَاصِمَةُ:</b> عَمَّانُ</p></div>
-  <div class="beat vocal" data-scene="v:m-road"><p><b>المِسَاحَةُ:</b> ثَمَانِيَةٌ وَثَمَانُونَ أَلْفًا وَسَبْعُمِئَةٍ وَسَبْعَةٌ وَثَمَانُونَ كِيلُومِتْرًا مُرَبَّعًا</p></div>
-  <div class="beat vocal" data-scene="v:m-people"><p><b>عَدَدُ السُّكَّانِ:</b> حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ (11.9 مِلْيُونَ)</p></div>
-  <div class="beat vocal" data-scene="v:s09-script"><p><b>اللُّغَةُ الرَّسْمِيَّةُ:</b> اللُّغَةُ العَرَبِيَّةُ</p></div>
-  <div class="beat vocal" data-scene="v:s07-souk"><p><b>العُمْلَةُ:</b> الدِّينَارُ الأُرْدُنِيُّ</p></div>
-  <div class="beat vocal" data-scene="v:s03-flag"><p><b>نِظَامُ الحُكْمِ:</b> مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</p></div>
+<section class="ch" id="flag" data-title="العَلَمُ الأُرْدُنِيُّ" data-mood="wind">
+  <div class="beat" data-scene="v:m-flagpole" data-tr="zoom" data-layout="stack"><p class="speech">العَلَمُ الأُرْدُنِيُّ هُوَ العَلَمُ الرَّسْمِيُّ لِلْمَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ، وَقَدْ بَدَأَ اسْتِخْدَامُهُ رَسْمِيًّا فِي سِتَّةَ عَشَرَ أَبْرِيلَ عَامَ أَلْفٍ وَتِسْعِمِئَةٍ وَثَمَانِيَةٍ وَعِشْرِينَ.</p><ol class="frags"><li data-t="0.6">العَلَمُ الأُرْدُنِيُّ</li><li data-t="5.5" data-scene="flag" data-flag="approach"></li></ol></div>
+  <div class="beat" data-scene="flag" data-flag="stripes"><p class="speech">يَتَكَوْنُ العَلَمُ مِنْ ثَلَاثَةِ أَشْرِطَةٍ أُفُقِيَّةٍ:</p><ol class="frags"><li data-t="0.4">الأَلْوَانُ وَالرُّمُوزُ</li></ol></div>
+  <div class="beat" data-flag="black" data-keep="1"><p class="speech">الأَسْوَدُ: يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ العَبَّاسِيَّةِ.</p></div>
+  <div class="beat" data-flag="white" data-keep="1"><p class="speech">الأَبْيَضُ: يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ الأُمَوِيَّةِ.</p></div>
+  <div class="beat" data-flag="green" data-keep="1"><p class="speech">الأَخْضَرُ: يَرْمُزُ إِلَى رَايَةِ آلِ البَيْتِ.</p></div>
+  <div class="beat" data-flag="red"><p class="speech">الأَحْمَرُ: يُوجَدُ عَلَى شَكْلِ مُثَلَّثٍ، وَيَرْمُزُ إِلَى الثَّوْرَةِ العَرَبِيَّةِ الكُبْرَى وَإِلَى الأُسْرَةِ الهَاشِمِيَّةِ.</p><ol class="frags"><li data-t="0.6">الثَّوْرَةُ العَرَبِيَّةُ الكُبْرَى</li></ol></div>
+  <div class="beat" data-flag="star"><p class="speech">وَفِي وَسَطِ المُثَلَّثِ الأَحْمَرِ تُوجَدُ نَجْمَةٌ بَيْضَاءُ ذَاتُ سَبْعَةِ رُؤُوسٍ، وَتَرْمُزُ إِلَى الآيَاتِ السَّبْعِ فِي سُورَةِ الفَاتِحَةِ.</p><ol class="frags"><li data-t="1.4">النَّجْمَةُ السُّبَاعِيَّةُ</li></ol></div>
 </section>
 
-<section class="ch" id="s3" data-title="العَلَمُ الأُرْدُنِيُّ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s03-flag"><h2>العَلَمُ الأُرْدُنِيُّ</h2></div>
-  <div class="beat vocal"><p>العَلَمُ الأُرْدُنِيُّ هُوَ العَلَمُ الرَّسْمِيُّ لِلْمَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ، وَقَدْ بَدَأَ اسْتِخْدَامُهُ رَسْمِيًّا فِي سِتَّةَ عَشَرَ أَبْرِيلَ عَامَ أَلْفٍ وَتِسْعِمِئَةٍ وَثَمَانِيَةٍ وَعِشْرِينَ.</p></div>
-  <div class="beat vocal" data-ov="flag"><p>يَتَكَوْنُ العَلَمُ مِنْ ثَلَاثَةِ أَشْرِطَةٍ أُفُقِيَّةٍ:</p></div>
-  <div class="beat vocal" data-ov="flag:black"><p><b>الأَسْوَدُ:</b> يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ العَبَّاسِيَّةِ.</p></div>
-  <div class="beat vocal" data-ov="flag:white"><p><b>الأَبْيَضُ:</b> يَرْمُزُ إِلَى رَايَةِ الدَّوْلَةِ الأُمَوِيَّةِ.</p></div>
-  <div class="beat vocal" data-ov="flag:green"><p><b>الأَخْضَرُ:</b> يَرْمُزُ إِلَى رَايَةِ آلِ البَيْتِ.</p></div>
-  <div class="beat vocal" data-ov="flag:red"><p><b>الأَحْمَرُ:</b> يُوجَدُ عَلَى شَكْلِ مُثَلَّثٍ، وَيَرْمُزُ إِلَى الثَّوْرَةِ العَرَبِيَّةِ الكُبْرَى وَإِلَى الأُسْرَةِ الهَاشِمِيَّةِ.</p></div>
-  <div class="beat vocal" data-ov="flag:star"><p>وَفِي وَسَطِ المُثَلَّثِ الأَحْمَرِ تُوجَدُ نَجْمَةٌ بَيْضَاءُ ذَاتُ سَبْعَةِ رُؤُوسٍ، وَتَرْمُزُ إِلَى الآيَاتِ السَّبْعِ فِي سُورَةِ الفَاتِحَةِ.</p></div>
+<section class="ch" id="emblem" data-title="شِعَارُ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ" data-mood="hall">
+  <div class="beat" data-scene="emblem" data-tr="star" data-layout="stack"><p class="speech">شِعَارُ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ هُوَ رَمْزٌ رَسْمِيٌّ لِلدَّوْلَةِ، وَيَجْمَعُ بَيْنَ عَدَدٍ مِنَ الرُّمُوزِ الَّتِي تُعَبِّرُ عَنْ تَارِيخِ المَمْلَكَةِ وَهُوِيَّتِهَا.</p><ol class="frags"><li data-t="0" data-emb="silhouette"></li><li data-t="1.4" data-emb="reveal"></li><li data-t="2.4">شِعَارُ المَمْلَكَةِ</li></ol></div>
+  <div class="beat" data-emb="full"><p class="speech">وَمِنْ أَبْرَزِ عَنَاصِرِ الشِّعَارِ:</p></div>
+  <div class="beat" data-emb="crown"><p class="speech">التَّاجُ المَلَكِيُّ: يَرْمُزُ إِلَى النِّظَامِ المَلَكِيِّ فِي المَمْلَكَةِ.</p><ol class="frags"><li data-t="0.5">التَّاجُ المَلَكِيُّ</li></ol></div>
+  <div class="beat" data-emb="eagle" data-layout="stack"><p class="speech">الطَّائِرُ: يُمَثِّلُ العُقَابَ، وَهُوَ رَمْزٌ لِلْقُوَّةِ وَالرِّفْعَةِ.</p><ol class="frags"><li data-t="0.5">العُقَابُ</li><li data-t="2.2">رَمْزُ القُوَّةِ وَالرِّفْعَةِ</li></ol></div>
+  <div class="beat" data-emb="flags"><p class="speech">العَلَمَانِ الأُرْدُنِيَّانِ: يَرْمُزَانِ إِلَى الدَّوْلَةِ وَالهُوِيَّةِ الوَطَنِيَّةِ.</p></div>
+  <div class="beat" data-emb="globe"><p class="speech">الكُرَةُ الأَرْضِيَّةُ: تَرْمُزُ إِلَى انْفِتَاحِ الأُرْدُنِّ وَعَلَاقَاتِهِ مَعَ العَالَمِ.</p></div>
+  <div class="beat" data-emb="arms"><p class="speech">الأَسْلِحَةُ التَّقْلِيدِيَّةُ: تُشِيرُ إِلَى الدِّفَاعِ وَالقُوَّةِ.</p></div>
+  <div class="beat" data-emb="plants"><p class="speech">القَمْحُ وَسَعَفُ النَّخِيلِ: يَرْمُزَانِ إِلَى الزِّرَاعَةِ وَالخَيْرِ وَالازْدِهَارِ.</p></div>
+  <div class="beat" data-emb="ribbon"><p class="speech">الشَّرِيطُ العَرَبِيُّ: يَحْمِلُ اسْمَ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ.</p></div>
 </section>
 
-<section class="ch" id="s4" data-title="شِعَارُ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s04-deadsea" data-ov="emblem"><h2>شِعَارُ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ</h2></div>
-  <div class="beat vocal"><p>شِعَارُ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ هُوَ رَمْزٌ رَسْمِيٌّ لِلدَّوْلَةِ، وَيَجْمَعُ بَيْنَ عَدَدٍ مِنَ الرُّمُوزِ الَّتِي تُعَبِّرُ عَنْ تَارِيخِ المَمْلَكَةِ وَهُوِيَّتِهَا.</p></div>
-  <div class="beat vocal"><p>وَمِنْ أَبْرَزِ عَنَاصِرِ الشِّعَارِ:</p></div>
-  <div class="beat vocal"><p><b>التَّاجُ المَلَكِيُّ:</b> يَرْمُزُ إِلَى النِّظَامِ المَلَكِيِّ فِي المَمْلَكَةِ.</p></div>
-  <div class="beat vocal"><p><b>الطَّائِرُ:</b> يُمَثِّلُ العُقَابَ، وَهُوَ رَمْزٌ لِلْقُوَّةِ وَالرِّفْعَةِ.</p></div>
-  <div class="beat vocal"><p><b>العَلَمَانِ الأُرْدُنِيَّانِ:</b> يَرْمُزَانِ إِلَى الدَّوْلَةِ وَالهُوِيَّةِ الوَطَنِيَّةِ.</p></div>
-  <div class="beat vocal"><p><b>الكُرَةُ الأَرْضِيَّةُ:</b> تَرْمُزُ إِلَى انْفِتَاحِ الأُرْدُنِّ وَعَلَاقَاتِهِ مَعَ العَالَمِ.</p></div>
-  <div class="beat vocal"><p><b>الأَسْلِحَةُ التَّقْلِيدِيَّةُ:</b> تُشِيرُ إِلَى الدِّفَاعِ وَالقُوَّةِ.</p></div>
-  <div class="beat vocal"><p><b>القَمْحُ وَسَعَفُ النَّخِيلِ:</b> يَرْمُزَانِ إِلَى الزِّرَاعَةِ وَالخَيْرِ وَالازْدِهَارِ.</p></div>
-  <div class="beat vocal"><p><b>الشَّرِيطُ العَرَبِيُّ:</b> يَحْمِلُ اسْمَ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ.</p></div>
+<section class="ch" id="info" data-title="مَعْلُومَاتٌ عَامَّةٌ" data-mood="city">
+  <div class="beat" data-scene="v:s02-amman" data-tr="dissolve" data-layout="title"><p class="speech">الاسْمُ الرَّسْمِيُّ: المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</p><ol class="frags"><li data-t="0.8" class="t">المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-amman" data-tr="fade" data-layout="title"><p class="speech">العَاصِمَةُ: عَمَّانُ</p><ol class="frags"><li data-t="0.5" class="t">عَمَّانُ</li></ol></div>
+  <div class="beat" data-scene="globe" data-geo="jordan frame" data-tr="rise"><p class="speech">المِسَاحَةُ: ثَمَانِيَةٌ وَثَمَانُونَ أَلْفًا وَسَبْعُمِئَةٍ وَسَبْعَةٌ وَثَمَانُونَ كِيلُومِتْرًا مُرَبَّعًا</p><ol class="frags"><li data-t="0.8">المِسَاحَةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-people" data-tr="fade"><p class="speech">عَدَدُ السُّكَّانِ: حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ (11.9 مِلْيُونَ)</p><ol class="frags"><li data-t="0.6">عَدَدُ السُّكَّانِ</li></ol></div>
+  <div class="beat" data-scene="v:s09-script" data-tr="wipe"><p class="speech">اللُّغَةُ الرَّسْمِيَّةُ: اللُّغَةُ العَرَبِيَّةُ</p><ol class="frags"><li data-t="0.6">اللُّغَةُ العَرَبِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="img:currency" data-tr="fade"><p class="speech">العُمْلَةُ: الدِّينَارُ الأُرْدُنِيُّ</p><ol class="frags"><li data-t="0.6">الدِّينَارُ الأُرْدُنِيُّ</li></ol></div>
+  <div class="beat" data-scene="v:m-flagpole" data-tr="fade"><p class="speech">نِظَامُ الحُكْمِ: مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</p><ol class="frags"><li data-t="0.6">مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</li></ol></div>
 </section>
 
-<section class="ch" id="s5" data-title="المَوْقِعُ الجُغْرَافِيُّ وَالحُدُودُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s05-map"><h2>المَوْقِعُ الجُغْرَافِيُّ وَالحُدُودُ</h2></div>
-  <div class="beat vocal" data-scene="globe" data-geo="region"><p>تَقَعُ المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ فِي غَرْبِ آسِيَا، فِي مِنْطَقَةِ الشَّرْقِ الأَوْسَطِ.</p></div>
-  <div class="beat vocal" data-geo="region"><p>تَحُدُّهَا:</p></div>
-  <div class="beat vocal" data-geo="region hl:SYR"><p>سُورِيَا مِنَ الشَّمَالِ.</p></div>
-  <div class="beat vocal" data-geo="region hl:IRQ"><p>العِرَاقُ مِنَ الشَّرْقِ.</p></div>
-  <div class="beat vocal" data-geo="region hl:SAU"><p>المَمْلَكَةُ العَرَبِيَّةُ السُّعُودِيَّةُ مِنَ الجَنُوبِ وَالجَنُوبِ الشَّرْقِيِّ.</p></div>
-  <div class="beat vocal" data-geo="region hl:PSX,ISR"><p>فِلَسْطِينُ مِنَ الغَرْبِ.</p></div>
-  <div class="beat vocal" data-geo="aqaba pin:aqaba"><p>وَلِلأُرْدُنِّ مَنْفَذٌ بَحْرِيٌّ صَغِيرٌ عَلَى البَحْرِ الأَحْمَرِ عَنْ طَرِيقِ خَلِيجِ العَقَبَةِ.</p></div>
+<section class="ch" id="geo" data-title="المَوْقِعُ الجُغْرَافِيُّ وَالحُدُودُ" data-mood="space">
+  <div class="beat" data-scene="globe" data-geo="world" data-tr="rise" data-layout="title"><p class="speech">تَقَعُ المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ فِي غَرْبِ آسِيَا، فِي مِنْطَقَةِ الشَّرْقِ الأَوْسَطِ.</p><ol class="frags"><li data-t="0.4" class="t">المَوْقِعُ الجُغْرَافِيُّ</li><li data-t="3.4" data-geo="region">غَرْبُ آسِيَا</li><li data-t="4.8">الشَّرْقُ الأَوْسَطُ</li></ol></div>
+  <div class="beat" data-geo="region"><p class="speech">تَحُدُّهَا:</p></div>
+  <div class="beat" data-geo="region hl:SYR" data-label="SYR:سُورِيَا"><p class="speech">سُورِيَا مِنَ الشَّمَالِ.</p></div>
+  <div class="beat" data-geo="region hl:IRQ" data-label="IRQ:العِرَاقُ"><p class="speech">العِرَاقُ مِنَ الشَّرْقِ.</p></div>
+  <div class="beat" data-geo="region hl:SAU" data-label="SAU:المَمْلَكَةُ العَرَبِيَّةُ السُّعُودِيَّةُ"><p class="speech">المَمْلَكَةُ العَرَبِيَّةُ السُّعُودِيَّةُ مِنَ الجَنُوبِ وَالجَنُوبِ الشَّرْقِيِّ.</p></div>
+  <div class="beat" data-geo="region hl:PSX,ISR" data-label="PSX:فِلَسْطِينُ"><p class="speech">فِلَسْطِينُ مِنَ الغَرْبِ.</p></div>
+  <div class="beat" data-geo="aqaba" data-layout="stack"><p class="speech">وَلِلأُرْدُنِّ مَنْفَذٌ بَحْرِيٌّ صَغِيرٌ عَلَى البَحْرِ الأَحْمَرِ عَنْ طَرِيقِ خَلِيجِ العَقَبَةِ.</p><ol class="frags"><li data-t="1.6">خَلِيجُ العَقَبَةِ</li><li data-t="3.2">البَحْرُ الأَحْمَرُ</li></ol></div>
 </section>
 
-<section class="ch" id="s6" data-title="السُّكَّانُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:black" data-ov="photos"><h2>السُّكَّانُ</h2></div>
-  <div class="beat vocal"><p>يَبْلُغُ عَدَدُ سُكَّانِ الأُرْدُنِّ حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ.</p></div>
-  <div class="beat vocal" data-scene="v:m-people" data-ov="none"><p>يُشَكِّلُ العَرَبُ غَالِبِيَّةَ السُّكَّانِ، وَتَعِيشُ فِي الأُرْدُنِّ أَيْضًا مَجْمُوعَاتٌ مِنَ الشَّرَاكِسَةِ وَالشِّيشَانِ وَالأَرْمَنِ وَغَيْرِهِمْ.</p></div>
-  <div class="beat vocal" data-scene="globe" data-geo="north pin:amman,zarqa,irbid"><p>وَيَتَرَكَّزُ مُعْظَمُ السُّكَّانِ فِي المَنَاطِقِ الشَّمَالِيَّةِ وَالوُسْطَى مِنَ البِلَادِ، وَخَاصَّةً فِي عَمَّانَ وَالزَّرْقَاءِ وَإِرْبِدَ.</p></div>
+<section class="ch" id="people" data-title="السُّكَّانُ" data-mood="city">
+  <div class="beat" data-scene="v:m-people" data-tr="drop" data-layout="title"><p class="speech">يَبْلُغُ عَدَدُ سُكَّانِ الأُرْدُنِّ حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ.</p><ol class="frags"><li data-t="0.6" class="t">السُّكَّانُ</li></ol></div>
+  <div class="beat" data-scene="v:s07-souk" data-tr="fade" data-layout="row"><p class="speech">يُشَكِّلُ العَرَبُ غَالِبِيَّةَ السُّكَّانِ، وَتَعِيشُ فِي الأُرْدُنِّ أَيْضًا مَجْمُوعَاتٌ مِنَ الشَّرَاكِسَةِ وَالشِّيشَانِ وَالأَرْمَنِ وَغَيْرِهِمْ.</p><ol class="frags"><li data-t="0.8">العَرَبُ</li><li data-t="2.0">الشَّرَاكِسَةُ</li><li data-t="3.2">الشِّيشَانُ</li><li data-t="4.4">الأَرْمَنُ</li></ol></div>
+  <div class="beat" data-scene="globe" data-geo="north" data-tr="rise" data-layout="row"><p class="speech">وَيَتَرَكَّزُ مُعْظَمُ السُّكَّانِ فِي المَنَاطِقِ الشَّمَالِيَّةِ وَالوُسْطَى مِنَ البِلَادِ، وَخَاصَّةً فِي عَمَّانَ وَالزَّرْقَاءِ وَإِرْبِدَ.</p><ol class="frags"><li data-t="1.0" data-geo="north pin:amman">عَمَّانُ</li><li data-t="2.6" data-geo="north pin:amman,zarqa">الزَّرْقَاءُ</li><li data-t="4.2" data-geo="north pin:amman,zarqa,irbid">إِرْبِدُ</li></ol></div>
 </section>
 
-<section class="ch" id="s7" data-title="الاقْتِصَادُ وَالنَّاتِجُ المَحَلِّيُّ الإِجْمَالِيُّ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s07-souk"><h2>الاقْتِصَادُ وَالنَّاتِجُ المَحَلِّيُّ الإِجْمَالِيُّ</h2></div>
-  <div class="beat vocal"><p>يُعَدُّ الأُرْدُنُّ مِنْ دُوَلِ الشَّرْقِ الأَوْسَطِ ذَاتِ الاقْتِصَادِ المُتَنَوِّعِ.</p></div>
-  <div class="beat vocal" data-scene="v:m-amman"><p>بَلَغَ النَّاتِجُ المَحَلِّيُّ الإِجْمَالِيُّ لِلأُرْدُنِّ حَوَالَيْ ثَلَاثَةٍ وَخَمْسِينَ نُقْطَة خَمْسَةٍ وَثَمَانِينَ مِلْيَارَ دُولَارٍ أَمْرِيكِيٍّ فِي عَامِ أَلْفَيْنِ وَأَرْبَعَةٍ وَعِشْرِينَ.</p></div>
-  <div class="beat vocal" data-scene="v:s08-port"><p>وَمِنْ أَهَمِّ قِطَاعَاتِ الاقْتِصَادِ:</p><ul class="chips"><li>الخِدَمَاتُ؛</li><li>التِّجَارَةُ؛</li><li>الصِّنَاعَةُ؛</li><li>السِّيَاحَةُ؛</li><li>النَّقْلُ.</li></ul></div>
-  <div class="beat vocal" data-scene="v:m-petra"><p>وَيُؤَدِّي قِطَاعُ السِّيَاحَةِ دَوْرًا مُهِمًّا فِي الاقْتِصَادِ الأُرْدُنِيِّ بِسَبَبِ المَوَاقِعِ التَّارِيخِيَّةِ وَالطَّبِيعِيَّةِ المَشْهُورَةِ.</p></div>
+<section class="ch" id="economy" data-title="الاقْتِصَادُ وَالنَّاتِجُ المَحَلِّيُّ الإِجْمَالِيُّ" data-mood="city">
+  <div class="beat" data-scene="v:s14-amman" data-tr="whip" data-layout="title"><p class="speech">يُعَدُّ الأُرْدُنُّ مِنْ دُوَلِ الشَّرْقِ الأَوْسَطِ ذَاتِ الاقْتِصَادِ المُتَنَوِّعِ.</p><ol class="frags"><li data-t="0.6" class="t">الاقْتِصَادُ</li></ol></div>
+  <div class="beat" data-scene="v:s14-amman" data-dim="1" data-layout="number"><p class="speech">بَلَغَ النَّاتِجُ المَحَلِّيُّ الإِجْمَالِيُّ لِلأُرْدُنِّ حَوَالَيْ ثَلَاثَةٍ وَخَمْسِينَ نُقْطَة خَمْسَةٍ وَثَمَانِينَ مِلْيَارَ دُولَارٍ أَمْرِيكِيٍّ فِي عَامِ أَلْفَيْنِ وَأَرْبَعَةٍ وَعِشْرِينَ.</p><ol class="frags"><li data-t="0.8" class="num">53.35</li><li data-t="1.6" class="unit">مِلْيَارَ دُولَارٍ أَمْرِيكِيٍّ</li></ol></div>
+  <div class="beat" data-layout="row"><p class="speech">وَمِنْ أَهَمِّ قِطَاعَاتِ الاقْتِصَادِ:</p><p class="speech">الخِدَمَاتُ؛</p><p class="speech">التِّجَارَةُ؛</p><p class="speech">الصِّنَاعَةُ؛</p><p class="speech">السِّيَاحَةُ؛</p><p class="speech">النَّقْلُ.</p><ol class="frags"><li data-t="0.5" data-scene="v:s04-deadsea">الخِدْمَاتُ</li><li data-t="2.4" data-scene="v:s07-souk">التِّجَارَةُ</li><li data-t="4.3" data-scene="v:s08-port">الصِّنَاعَةُ</li><li data-t="6.2" data-scene="v:m-petra">السِّيَاحَةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-petra"><p class="speech">وَيُؤَدِّي قِطَاعُ السِّيَاحَةِ دَوْرًا مُهِمًّا فِي الاقْتِصَادِ الأُرْدُنِيِّ بِسَبَبِ المَوَاقِعِ التَّارِيخِيَّةِ وَالطَّبِيعِيَّةِ المَشْهُورَةِ.</p></div>
 </section>
 
-<section class="ch" id="s8" data-title="الاِسْتِيرَادُ وَالتَّصْدِيرُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s08-port"><h2>الاِسْتِيرَادُ وَالتَّصْدِيرُ</h2></div>
-  <div class="beat vocal"><p>يَسْتَوْرِدُ الأُرْدُنُّ مِنَ الخَارِجِ أَكْثَرَ مِمَّا يُصَدِّرُ.</p></div>
-  <div class="beat vocal"><p>فِي عَامِ أَلْفَيْنِ وَخَمْسَةٍ وَعِشْرِينَ بَلَغَ تَقْرِيبًا:</p><ul class="bars"><li style="--v:.5154">التَّصْدِيرُ: عَشَرَةُ نُقْطَة ثَمَانِيَةٌ وَخَمْسُونَ مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ.</li><li style="--v:1">الاِسْتِيرَادُ: عِشْرُونَ نُقْطَة ثَلَاثَةٌ وَخَمْسُونَ مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ.</li></ul></div>
-  <div class="beat vocal"><p>وَمِنْ أَهَمِّ المُنْتَجَاتِ الَّتِي يُصَدِّرُهَا الأُرْدُنُّ:</p><ul class="chips"><li>المُنْتَجَاتُ الكِيمِيَائِيَّةُ؛</li><li>الأَسْمِدَةُ؛</li><li>المَلَابِسُ؛</li><li>المُنْتَجَاتُ الدَّوَائِيَّةُ؛</li><li>بَعْضُ المَوَارِدِ المَعْدِنِيَّةِ.</li></ul></div>
+<section class="ch" id="culture" data-title="الثَّقَافَةُ وَالتَّقَالِيدُ" data-mood="warm">
+  <div class="beat" data-scene="v:s10-coffee" data-tr="dissolve" data-layout="title"><p class="speech">وَنُوَاصِلُ الْحَدِيثَ عَنِ الثَّقَافَةِ وَالتَّقَالِيدِ فِي الْأُرْدُنِّ.</p><ol class="frags"><li data-t="0.6" class="t">الثَّقَافَةُ وَالتَّقَالِيدُ</li></ol></div>
+  <div class="beat" data-scene="v:m-bedouin" data-tr="fade"><p class="speech">تَجْمَعُ الثَّقَافَةُ الْأُرْدُنِيَّةُ بَيْنَ التَّقَالِيدِ الْعَرَبِيَّةِ وَالْإِسْلَامِيَّةِ وَالْبَدَوِيَّةِ.</p></div>
+  <div class="beat" data-layout="row"><p class="speech">وَمِنْ أَهَمِّ الْقِيَمِ: كَرَمُ الضِّيَافَةِ، وَاحْتِرَامُ كِبَارِ السِّنِّ، وَأَهَمِيَّةُ الْأُسْرَةِ.</p><ol class="frags"><li data-t="0.6" data-scene="v:c-hosp">كَرَمُ الضِّيَافَةِ</li><li data-t="3.0" data-scene="v:m-elder">احْتِرَامُ كِبَارِ السِّنِّ</li><li data-t="5.4" data-scene="v:s11-family">أَهَمِّيَّةُ الأُسْرَةِ</li></ol></div>
+  <div class="beat" data-layout="row"><p class="speech">وَتُعْتَبَرُ الْقَهْوَةُ وَالتَّطْرِيزُ مِنْ أَهَمِّ رُمُوزِ هَذَا التُّرَاثِ.</p><ol class="frags"><li data-t="0.6" data-scene="v:s10-coffee">القَهْوَةُ</li><li data-t="3.0" data-scene="img:embroidery">التَّطْرِيزُ</li></ol></div>
 </section>
 
-<section class="ch" id="s9" data-title="اللُّغَةُ وَاللَّهَجَاتُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s09-script"><h2>اللُّغَةُ وَاللَّهَجَاتُ</h2></div>
-  <div class="beat vocal"><p>اللُّغَةُ الرَّسْمِيَّةُ فِي الأُرْدُنِّ هِيَ اللُّغَةُ العَرَبِيَّةُ.</p></div>
-  <div class="beat vocal"><p>وَتُسْتَخْدَمُ اللُّغَةُ الإِنْجِلِيزِيَّةُ أَيْضًا عَلَى نِطَاقٍ وَاسِعٍ، وَخَاصَّةً فِي التَّعْلِيمِ وَالأَعْمَالِ وَالتَّوَاصُلِ الدَّوْلِيِّ.</p></div>
-  <div class="beat vocal" data-scene="globe" data-geo="jordan"><p>وَتُوجَدُ فِي الأُرْدُنِّ عِدَّةُ لَهَجَاتٍ عَرَبِيَّةٍ، مِنْهَا:</p></div>
-  <div class="beat vocal" data-geo="north pin:irbid,jerash,ajloun"><p>اللَّهَجَةُ الشَّمَالِيَّةُ، المُنْتَشِرَةُ فِي مَنَاطِقَ مِثْلِ إِرْبِدَ وَجَرَّشَ وَعَجْلُونَ.</p></div>
-  <div class="beat vocal" data-geo="amman pin:amman,zarqa"><p>اللَّهَجَةُ الحَضَرِيَّةُ، وَخَاصَّةً فِي عَمَّانَ وَالزَّرْقَاءِ.</p></div>
-  <div class="beat vocal" data-geo="jordan hl:SAU"><p>اللَّهَجَاتُ الجَنُوبِيَّةُ وَالبَدَوِيَّةُ، المُنْتَشِرَةُ فِي المَنَاطِقِ الجَنُوبِيَّةِ وَالشَّرْقِيَّةِ.</p></div>
-  <div class="beat vocal" data-scene="v:s09-script"><p>وَتَخْتَلِفُ اللَّهَجَاتُ الأُرْدُنِيَّةُ فِي بَعْضِ الكَلِمَاتِ وَالنُّطْقِ، لَكِنَّهَا تَنْتَمِي إِلَى مَجْمُوعَةِ اللَّهَجَاتِ العَرَبِيَّةِ الشَّامِيَّةِ وَالبَدَوِيَّةِ.</p></div>
+<section class="ch" id="dress" data-title="الْمَلَابِسُ التَّقْلِيدِيَّةُ" data-mood="warm">
+  <div class="beat" data-scene="v:m-man" data-tr="zoom" data-layout="title"><p class="speech">وَبِالنَّسْبَةِ لِلْمَلَابِسِ التَّقْلِيدِيَّةِ، يَرْتَدِي الرِّجَالُ الثَّوْبَ وَالشِّمَاغَ،</p><ol class="frags"><li data-t="0.6" class="t">الْمَلَابِسُ التَّقْلِيدِيَّةُ</li><li data-t="2.6">الثَّوْبُ</li><li data-t="4.4" data-scene="v:m-shemagh">الشِّمَاغُ</li></ol></div>
+  <div class="beat" data-scene="img:dress" data-tr="fade"><p class="speech">بَيْنَمَا تَرْتَدِي النِّسَاءُ فُسْتَانًا طَوِيلًا مُزَيَّنًا بِالتَّطْرِيزِ الْيَدَوِيِّ الْجَمِيلِ.</p><ol class="frags"><li data-t="1.0">التَّطْرِيزُ الْيَدَوِيُّ</li></ol></div>
 </section>
 
-<section class="ch" id="s10" data-title="الثَّقَافَةُ وَالتَّقَالِيدُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s10-coffee"><h2>الثَّقَافَةُ وَالتَّقَالِيدُ</h2></div>
-  <div class="beat vocal"><p>وَنُوَاصِلُ الْحَدِيثَ عَنِ الثَّقَافَةِ وَالتَّقَالِيدِ فِي الْأُرْدُنِّ.</p></div>
-  <div class="beat vocal" data-scene="v:m-bedouin"><p>تَجْمَعُ الثَّقَافَةُ الْأُرْدُنِيَّةُ بَيْنَ التَّقَالِيدِ الْعَرَبِيَّةِ وَالْإِسْلَامِيَّةِ وَالْبَدَوِيَّةِ.</p></div>
-  <div class="beat vocal" data-scene="v:c-hosp"><p><b>وَمِنْ أَهَمِّ الْقِيَمِ:</b> كَرَمُ الضِّيَافَةِ، وَاحْتِرَامُ كِبَارِ السِّنِّ، وَأَهَمِيَّةُ الْأُسْرَةِ.</p></div>
-  <div class="beat vocal" data-scene="v:s10-coffee"><p>وَتُعْتَبَرُ الْقَهْوَةُ وَالتَّطْرِيزُ مِنْ أَهَمِّ رُمُوزِ هَذَا التُّرَاثِ.</p></div>
+<section class="ch" id="cuisine" data-title="الْمَطْبَخُ الْأُرْدُنِيُّ" data-mood="warm">
+  <div class="beat" data-scene="img:mansaf" data-tr="iris" data-layout="title"><p class="speech">وَأَمَّا الْمَطْبَخُ الْأُرْدُنِيُّ، فَإِنَّ &quot;الْمَنْسَفَ&quot; هُوَ الطَّبَقُ الْوَطَنِيُّ الْأَوَّلُ، وَيَتَكُوَّنُ مِنَ الْأُرْزِ وَلَحْمِ الضَّأْنِ وَالْجَمِيدِ.</p><ol class="frags"><li data-t="0.5" class="t">الْمَطْبَخُ الْأُرْدُنِيُّ</li><li data-t="2.6">الْمَنْسَفُ</li><li data-t="4.2">الْأُرْزُ</li><li data-t="5.2">لَحْمُ الضَّأْنِ</li><li data-t="6.2">الْجَمِيدُ</li></ol></div>
+  <div class="beat" data-layout="row"><p class="speech">كَمَا تَشْتَهِرُ الْمَمْلَكَةُ بِالْحُمُّصِ وَالْفَلَافِلِ وَالْمَقْلُوبَةِ.</p><ol class="frags"><li data-t="0.6" data-scene="v:s12-mezze">الْحُمُّصُ</li><li data-t="2.6" data-scene="img:falafel">الْفَلَافِلُ</li><li data-t="4.6" data-scene="img:maqluba">الْمَقْلُوبَةُ</li></ol></div>
 </section>
 
-<section class="ch" id="s11" data-title="الْمَلَابِسُ التَّقْلِيدِيَّةُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s11-family"><h2>الْمَلَابِسُ التَّقْلِيدِيَّةُ</h2></div>
-  <div class="beat vocal" data-scene="v:m-shemagh"><p>وَبِالنَّسْبَةِ لِلْمَلَابِسِ التَّقْلِيدِيَّةِ، يَرْتَدِي الرِّجَالُ الثَّوْبَ وَالشِّمَاغَ،</p></div>
-  <div class="beat vocal" data-scene="v:s11-family"><p>بَيْنَمَا تَرْتَدِي النِّسَاءُ فُسْتَانًا طَوِيلًا مُزَيَّنًا بِالتَّطْرِيزِ الْيَدَوِيِّ الْجَمِيلِ.</p></div>
+<section class="ch" id="places" data-title="أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ" data-mood="desert">
+  <div class="beat" data-scene="globe" data-geo="jordan pin:petra,rum,deadsea,jerash,amman" data-tr="haze" data-layout="title"><p class="speech">وَالْآنَ، نَنْتَقِلُ إِلَى أَهَمِّ الْمَعَالِمِ:</p><ol class="frags"><li data-t="0.6" class="t">أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ</li></ol></div>
+  <div class="beat" data-scene="v:m-petra" data-tr="fade" data-layout="place"><p class="speech">الْبَتْرَاءُ: الْمَدِينَةُ الْوَرَدِيَّةُ التَّارِيخِيَّةُ.</p><ol class="frags"><li data-t="5.6" class="t">الْبَتْرَاءُ</li><li data-t="6.6">الْمَدِينَةُ الْوَرْدِيَّةُ التَّارِيخِيَّةُ.</li></ol></div>
+  <div class="beat" data-scene="v:m-rum" data-tr="wipe" data-layout="place"><p class="speech">وَادِي رَمٍّ: الصَّحْرَاءُ الْخَلَّابَةُ.</p><ol class="frags"><li data-t="1.2" class="t">وَادِي رَمٍّ</li><li data-t="2.2">الصَّحْرَاءُ الْخَلَّابَةُ.</li></ol></div>
+  <div class="beat" data-scene="v:m-deadsea" data-tr="iris" data-layout="place"><p class="speech">الْبَحْرُ الْمَيِّتُ: أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الْأَرْضِ.</p><ol class="frags"><li data-t="1.2" class="t">الْبَحْرُ الْمَيِّتُ</li><li data-t="2.2">أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الأَرْضِ.</li></ol></div>
+  <div class="beat" data-scene="v:m-jerash" data-tr="pan" data-layout="place"><p class="speech">جَرَشُ: الْمَدِينَةُ الرُّومَانِيَّةُ الْأَثَرِيَّةُ.</p><ol class="frags"><li data-t="1.2" class="t">جَرَشُ</li><li data-t="2.2">الْمَدِينَةُ الرُّومَانِيَّةُ الأَثَرِيَّةُ.</li></ol></div>
+  <div class="beat" data-scene="v:m-amman+s14-amman" data-tr="zoom" data-layout="place"><p class="speech">عَمَّانُ: الْعَاصِمَةُ الْحَدِيثَةُ.</p><ol class="frags"><li data-t="1.2" class="t">عَمَّانُ</li><li data-t="2.2">الْعَاصِمَةُ الْحَدِيثَةُ.</li></ol></div>
 </section>
 
-<section class="ch" id="s12" data-title="الْمَطْبَخُ الْأُرْدُنِيُّ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s12-mezze"><h2>الْمَطْبَخُ الْأُرْدُنِيُّ</h2></div>
-  <div class="beat vocal" data-ov="mansaf"><p>وَأَمَّا الْمَطْبَخُ الْأُرْدُنِيُّ، فَإِنَّ &quot;الْمَنْسَفَ&quot; هُوَ الطَّبَقُ الْوَطَنِيُّ الْأَوَّلُ، وَيَتَكُوَّنُ مِنَ الْأُرْزِ وَلَحْمِ الضَّأْنِ وَالْجَمِيدِ.</p></div>
-  <div class="beat vocal" data-scene="v:m-food" data-ov="none"><p>كَمَا تَشْتَهِرُ الْمَمْلَكَةُ بِالْحُمُّصِ وَالْفَلَافِلِ وَالْمَقْلُوبَةِ.</p></div>
+<section class="ch" id="facts" data-title="حَقَائِقُ مُثِيرَةٌ" data-mood="desert">
+  <div class="beat" data-scene="globe" data-geo="river-flight pin:river" data-tr="rise" data-layout="title"><p class="speech">وَمِنَ الْحَقَائِقِ الْمَثِيرَةِ: سُمِّيَتِ الْأُرْدُنُّ نِسْبَةً إِلَى نَهْرِ الْأُرْدُنِّ،</p><ol class="frags"><li data-t="0.5" class="t">حَقَائِقُ مُثِيرَةٌ</li><li data-t="2.6">نَهْرُ الأُرْدُنِّ</li></ol></div>
+  <div class="beat" data-scene="v:s13-petra" data-tr="fade"><p class="speech">وَتُعَدُّ الْبَتْرَاءُ مِنْ عَجَائِبِ الدُّنْيَا السَّبْعِ الْجَدِيدَةِ.</p><ol class="frags"><li data-t="1.0">عَجَائِبُ الدُّنْيَا السَّبْعُ الْجَدِيدَةُ</li></ol></div>
 </section>
 
-<section class="ch" id="s13" data-title="الْبَتْرَاءُ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s13-petra"><h2>أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ</h2></div>
-  <div class="beat vocal"><p>وَالْآنَ، نَنْتَقِلُ إِلَى أَهَمِّ الْمَعَالِمِ:</p></div>
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="petra pin:petra"><h2>الْبَتْرَاءُ</h2></div>
-  <div class="beat vocal" data-scene="v:s13-petra+m-petra" data-tag="الْبَتْرَاءُ"><p><b>الْبَتْرَاءُ:</b> الْمَدِينَةُ الْوَرَدِيَّةُ التَّارِيخِيَّةُ.</p></div>
+<section class="ch" id="end" data-title="الْخَاتِمَةُ" data-mood="finale">
+  <div class="beat" data-scene="v:m-sunset" data-tr="pullback" data-layout="center"><p class="speech">وَفِي الْخِتَامِ، الْأُرْدُنُّ بَلَدٌ غَنِيٌّ بِالتَّارِيخِ وَالثَّقَافَةِ، وَيَسْتَحِقُّ الزِّيَارَةَ.</p><ol class="frags"><li data-t="1.2" class="c">الْأُرْدُنُّ بَلَدٌ غَنِيٌّ بِالتَّارِيخِ وَالثَّقَافَةِ، وَيَسْتَحِقُّ الزِّيَارَةَ.</li></ol></div>
+  <div class="beat" data-layout="center"><p class="speech">شُكْرًا جَزِيلًا لِاسْتِمَاعِكُمْ!</p><p class="speech">هَلْ لَدَيْكُمْ أَيُّ أَسْئِلَةٍ؟</p><ol class="frags"><li data-t="0.4" class="c">شُكْرًا جَزِيلًا لِاسْتِمَاعِكُمْ!</li><li data-t="2.6" class="c">هَلْ لَدَيْكُمْ أَيُّ أَسْئِلَةٍ؟</li></ol></div>
 </section>
 
-<section class="ch" id="s14" data-title="عَمَّانُ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="amman pin:amman"><h2>عَمَّانُ</h2></div>
-  <div class="beat vocal" data-scene="v:s14-amman+m-amman" data-tag="عَمَّانُ"><p><b>عَمَّانُ:</b> الْعَاصِمَةُ الْحَدِيثَةُ.</p></div>
-</section>
-
-<section class="ch" id="s15" data-title="جَرَشُ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="jerash pin:jerash"><h2>جَرَشُ</h2></div>
-  <div class="beat vocal" data-scene="v:s15-jerash+m-jerash" data-tag="جَرَشُ"><p><b>جَرَشُ:</b> الْمَدِينَةُ الرُّومَانِيَّةُ الْأَثَرِيَّةُ.</p></div>
-</section>
-
-<section class="ch" id="s16" data-title="وَادِي رَمٍّ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="rum pin:rum"><h2>وَادِي رَمٍّ</h2></div>
-  <div class="beat vocal" data-scene="v:s16-rum+m-rum" data-tag="وَادِي رَمٍّ"><p><b>وَادِي رَمٍّ:</b> الصَّحْرَاءُ الْخَلَّابَةُ.</p></div>
-</section>
-
-<section class="ch" id="s17" data-title="الْبَحْرُ الْمَيِّتُ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="deadsea pin:deadsea"><h2>الْبَحْرُ الْمَيِّتُ</h2></div>
-  <div class="beat vocal" data-scene="v:s17-sea+m-deadsea" data-tag="الْبَحْرُ الْمَيِّتُ"><p><b>الْبَحْرُ الْمَيِّتُ:</b> أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الْأَرْضِ.</p></div>
-</section>
-
-<section class="ch" id="s18" data-title="حَقَائِقُ مَثِيرَةٌ عَنِ الْأُرْدُنِّ">
-  <div class="beat vocal" data-kind="title" data-scene="v:s18-map"><h2>حَقَائِقُ مَثِيرَةٌ عَنِ الْأُرْدُنِّ</h2></div>
-  <div class="beat vocal" data-scene="globe" data-geo="river pin:river"><p><b>وَمِنَ الْحَقَائِقِ الْمَثِيرَةِ:</b> سُمِّيَتِ الْأُرْدُنُّ نِسْبَةً إِلَى نَهْرِ الْأُرْدُنِّ،</p></div>
-  <div class="beat vocal" data-geo="petra pin:petra"><p>وَتُعَدُّ الْبَتْرَاءُ مِنْ عَجَائِبِ الدُّنْيَا السَّبْعِ الْجَدِيدَةِ.</p></div>
-</section>
-
-<section class="ch" id="s19" data-title="الْخَاتِمَةُ">
-  <div class="beat vocal" data-kind="title" data-scene="globe" data-geo="jordan"><h2>الْخَاتِمَةُ</h2></div>
-  <div class="beat vocal" data-scene="v:s01-deir"><p>وَفِي الْخِتَامِ، الْأُرْدُنُّ بَلَدٌ غَنِيٌّ بِالتَّارِيخِ وَالثَّقَافَةِ، وَيَسْتَحِقُّ الزِّيَارَةَ.</p></div>
-</section>
-
-<section class="ch" id="s20" data-title="شُكْرًا جَزِيلًا لِاسْتِمَاعِكُمْ!">
-  <div class="beat vocal" data-kind="finale" data-scene="v:s19-camels"><h2>شُكْرًا جَزِيلًا لِاسْتِمَاعِكُمْ!</h2><p class="credit q">هَلْ لَدَيْكُمْ أَيُّ أَسْئِلَةٍ؟</p><p class="credit">إِعْدَادُ الطَّالِبَةِ: إِعْزَازَاخُونْ أَنْفَارُوفَا</p><p class="credit names" dir="auto">Анварова Э · Юсупова Н</p></div>
+<section class="ch" id="names" data-title="Анварова Э. · Юсупова Н." data-mood="silence">
+  <div class="beat" data-scene="black" data-tr="fade" data-layout="names"><ol class="frags"><li data-t="0.8" class="names">Анварова Э. · Юсупова Н.</li></ol></div>
 </section>
 
 </main>
 
-<noscript><style>.stage,.hud,.dock{display:none}.script .beat{position:static;height:auto;clip:auto;width:auto;overflow:visible}</style></noscript>
+<noscript><style>.stage,.hud,.dock{display:none}.script .speech,.script .frags{position:static;clip:auto;width:auto;height:auto}</style></noscript>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="assets/globe.js"></script>
+<script src="assets/flag.js"></script>
+<script src="assets/sound.js"></script>
 <script src="assets/film.js"></script>
 </body>
 </html>
