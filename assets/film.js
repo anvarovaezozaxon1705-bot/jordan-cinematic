@@ -18,10 +18,13 @@
     's07-souk': V('s07-souk', 's07'), 's08-port': V('s08-port', 's08'), 's09-script': V('s09-script', 's09'),
     's10-coffee': V('s10-coffee', 's10'), 's11-family': V('s11-family', 's11'), 's12-mezze': V('s12-mezze', 's12'),
     's13-petra': V('s13-petra', 's13'), 's14-amman': V('s14-amman', 's14'), 'c-hosp': V('c-hosp'),
-    ...Object.fromEntries(['amman', 'bedouin', 'deadsea', 'jerash', 'people', 'petra', 'rum', 'shemagh', 'sunset', 'descent', 'flagpole', 'elder', 'man']
+    ...Object.fromEntries(['amman', 'bedouin', 'deadsea', 'jerash', 'people', 'petra', 'rum', 'shemagh', 'sunset', 'descent', 'flagpole', 'elder', 'man', 'petrapano', 'finale']
       .map((k) => [`m-${k}`, V(`m-${k}`)])),
     currency: I('jordan-currency.jpg', 'in'), embroidery: I('jordan-dress.jpg', 'in'),
-    dress: I('jordan-dress.jpg', 'down'), falafel: I('falafel.jpg', 'in'), maqluba: I('maqluba.jpg', 'in'), mansaf: I('s12-mansaf.jpg', 'in'),
+    dress: I('jordan-dress.jpg', 'down'), falafel: I('falafel.jpg', 'in'), maqluba: I('maqluba.jpg', 'in'), mansaf: I('s12-mansaf.jpg', 'in'), embmacro: I('embroidery-macro.jpg', 'in'),
+    mansafdish: I('mansaf-dish.jpg', 'in'), mansafrice: I('mansaf-rice.jpg', 'pan'), mansafmeat: I('mansaf-meat.jpg', 'in'), mansafjameed: I('mansaf-jameed.jpg', 'down'),
+    family: I('family-mansaf.jpg', 'in'), serving: I('mansaf-serving.jpg', 'down'), dresswoman: I('women-dress.jpg', 'down'),
+    ammandusk: I('amman-dusk.jpg', 'in'), ammannight: I('amman-night.jpg', 'in'),
   };
 
   /* ---------- script ---------- */
@@ -60,6 +63,17 @@
       wrap.appendChild(el); return el;
     });
     const r = { el: wrap, items, idx: 0, active: false, timer: 0 };
+    // a video that cannot load is replaced by its poster (or a soft sand backdrop), never a black frame
+    items.forEach((v, i) => {
+      if (v.tagName !== 'VIDEO') return;
+      v.addEventListener('error', () => {
+        const img = document.createElement('img'); img.alt = ''; img.className = 'kb-in' + (v.classList.contains('cur') ? ' cur' : '');
+        img.onerror = () => { img.remove(); wrap.classList.add('is-missing'); };
+        img.src = v.poster || 'assets/img/s05.jpg';
+        v.replaceWith(img); items[i] = img;
+        if (r.active && r.idx === i && items.length > 1) r.timer = setTimeout(() => { if (r.active && r.idx === i) playAt(r, (i + 1) % items.length); }, 5000);
+      });
+    });
     items.forEach((v, i) => { if (v.tagName === 'VIDEO' && items.length > 1) v.addEventListener('ended', () => { if (r.active && i === r.idx) playAt(r, (i + 1) % items.length); }); });
     reelsEl.appendChild(wrap); reels[key] = r; return r;
   }
@@ -175,7 +189,7 @@
     fragLayer.dataset.layout = b.d.layout || (b.d.keep && prev ? fragLayer.dataset.layout : 'lower');
     b.steps.forEach((s) => {
       const run = () => { applyActions(s.d, s.d.tr || 'fade'); if (s.text.trim()) addFrag(s); };
-      if (instant || reduceMotion) run(); else timers.push(setTimeout(run, s.t * 1000));
+      if (instant) run(); else timers.push(setTimeout(run, s.t * 1000));
     });
     root.classList.toggle('is-title', ['title', 'number', 'center', 'names'].includes(b.d.layout));
     root.classList.toggle('is-names', ch.id === 'names');
@@ -226,7 +240,7 @@
 
   /* ---------- autoplay at speaking pace ---------- */
   let playing = false;
-  const DEFAULT = { prologue: [7.5, 5, 5.5, 11], names: [8] };
+  const DEFAULT = { prologue: [7.5, 5, 5.5, 11], names: [10] };
   function duration(b) {
     const ch = chapters[b.ch]; const k = $$('.beat', ch).indexOf(b.el);
     if (DEFAULT[ch.id]) return DEFAULT[ch.id][k] || 6;
@@ -285,14 +299,17 @@
     C('Jordan... A Timeless Love', 'Jordan Tourism Board', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan..._A_Timeless_Love.webm'),
     C('Jordan The Bucket List 60s', 'Jordan Tourism Board', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan_The_Bucket_List_60s.webm'),
     C('The Siq at Petra', 'Ankur P', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:The_Siq_at_Petra_Ankur_P_Nov2018.webm'),
-    C('VIDEO - Wadi Rum', 'Jorge Láscar', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:VIDEO_-_Wadi_Rum.webm'),
-    C('Dead Sea, Israel and Jordan (Timelapse)', 'Google Earth', 'CC BY 3.0', 'https://commons.wikimedia.org/wiki/File:Dead_Sea,_Israel_and_Jordan.webm'),
     C('Coat of arms of Jordan', 'Wikimedia Commons', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Coat_of_arms_of_Jordan.svg'),
     C('Flag of Jordan', 'Wikimedia Commons', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Flag_of_Jordan.svg'),
     C('Jordanian currency', 'Makeandtoss', 'CC0', 'https://commons.wikimedia.org/wiki/File:Jordanian_currency.jpg'),
     C('Jordanian Felafel', 'Gopal Venkatesan', 'CC BY-SA 2.0', 'https://commons.wikimedia.org/wiki/File:Jordanian_Felafel.jpg'),
     C('Jordan 2021 — Hikayet Sitti Restaurant: preparing maqluba', 'Fallaner', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Jordan_2021_P114_Hikayet_Sitti_Restaurant_preparing_Maqluba.jpg'),
     C('Traditional dress from Jordan and Palestine', 'Lama Sakhnini', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Traditional_dress_from_Jordan_and_Palestine.jpg'),
+    C('Traditional Women Costume in Jordan', 'Mervat', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Traditional_Women_Costume_in_Jordan.jpg'),
+    C('Family mansaf', 'Goingtosafar', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Family_mansaf.jpg'),
+    C('Al-Mansaf 2', 'Aseel zm', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:Al-Mansaf_2.jpg'),
+    C('King Abdullah 1 Mosque at dusk', 'Motasemash', 'CC BY-SA 4.0', 'https://commons.wikimedia.org/wiki/File:King_Abdullah_1_Mosque_at_dusk.jpg'),
+    C('Amman at Night, 2009', 'Paul Stocker', 'CC BY 2.0', 'https://commons.wikimedia.org/wiki/File:Amman_at_Night,_2009.jpg'),
     C('Blue Marble Next Generation (globe imagery)', 'NASA Earth Observatory, Reto Stöckli', 'Public domain', 'https://visibleearth.nasa.gov/collection/1484/blue-marble'),
     C('Natural Earth admin-0 borders', 'Natural Earth', 'Public domain', 'https://www.naturalearthdata.com/'),
     C('Fonts: Amiri, Reem Kufi, Noto Naskh Arabic', 'Google Fonts', 'SIL Open Font License 1.1', 'https://fonts.google.com/'),
