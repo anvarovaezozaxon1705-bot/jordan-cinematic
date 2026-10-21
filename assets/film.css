@@ -158,7 +158,9 @@ button { font: inherit; color: inherit; }
 .frag-layer[data-layout="names"] { justify-content: center; align-items: center; }
 .frag.names { font-family: var(--f-names); font-weight: 400; font-size: clamp(1.6rem, 1rem + 2.4vw, 3.4rem); letter-spacing: .06em; color: var(--sand); clip-path: none; transition: opacity 2.4s var(--ease), transform 2.4s var(--ease-out); }
 .frag.sign { font-family: var(--f-ar); font-weight: 700; font-size: clamp(1.7rem, 1rem + 2.6vw, 3.6rem); color: var(--gold-2); line-height: 2.1; padding-block: .2em; text-align: center; clip-path: none; transition: opacity 2.4s var(--ease), transform 2.4s var(--ease-out); }
-.frag-layer[data-layout="names"] { gap: clamp(14px, 3vh, 32px); }
+.frag-layer[data-layout="names"] { gap: clamp(6px, 1.6vh, 18px); }
+.frag.sign--head { font-size: clamp(1.2rem, .8rem + 1.4vw, 2.2rem); font-weight: 400; color: var(--sand); }
+.frag.sign + .frag.names { margin-top: clamp(10px, 2.4vh, 28px); }
 .frag-layer[data-layout="names"] .frag.names { font-size: clamp(1.1rem, .8rem + 1.2vw, 1.9rem); }
 
 /* ---------- presenter notes (N) ---------- */
