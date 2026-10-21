@@ -33,7 +33,7 @@
   const beats = [];
   let sectionNo = 0;
   chapters.forEach((ch, ci) => {
-    const numbered = !['prologue', 'names'].includes(ch.id);
+    const numbered = ch.id !== 'names'; // chapter number = slide number of the presentation
     if (numbered) sectionNo++;
     ch._n = numbered ? sectionNo : 0;
     let scene = 'globe';

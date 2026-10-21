@@ -27,6 +27,7 @@
     <span class="pin" data-pin="rum"><i></i><b>وَادِي رَمٍّ</b></span>
     <span class="pin" data-pin="deadsea"><i></i><b>الْبَحْرُ الْمَيِّتُ</b></span>
     <span class="pin" data-pin="jerash"><i></i><b>جَرَشُ</b></span>
+    <span class="pin" data-pin="ajloun"><i></i><b>عَجْلُونُ</b></span>
     <span class="pin" data-pin="river"><i></i><b>نَهْرُ الأُرْدُنِّ</b></span>
     <span class="pin pin--label" data-pin="label"><b id="country-label"></b></span>
   </div>
@@ -77,11 +78,21 @@
      with its on-screen fragments (.frags > li, timed by data-t). data-scene / data-geo / data-flag / data-emb set the shot. -->
 <main class="script" id="script">
 
-<section class="ch" id="prologue" data-title="الأُرْدُنُّ" data-mood="space">
+<section class="ch" id="prologue" data-title="المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ" data-mood="space">
   <div class="beat" data-scene="globe" data-geo="deep" data-tr="fade"></div>
   <div class="beat" data-geo="world"></div>
-  <div class="beat" data-geo="jordan" data-layout="title"><ol class="frags"><li data-t="1.2" class="t">الأُرْدُنُّ</li></ol></div>
+  <div class="beat" data-geo="jordan" data-layout="title"><ol class="frags"><li data-t="1.2" class="t">المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</li></ol></div>
   <div class="beat" data-tr="drop"><ol class="frags"><li data-t="0" data-scene="v:m-descent"></li><li data-t="6.2" data-scene="v:s02-amman"></li></ol></div>
+</section>
+
+<section class="ch" id="info" data-title="مَعْلُومَاتٌ عَامَّةٌ" data-mood="city">
+  <div class="beat" data-scene="v:s02-amman" data-tr="dissolve" data-layout="title"><p class="speech">الاسْمُ الرَّسْمِيُّ: المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</p><ol class="frags"><li data-t="0.6" class="t">مَعْلُومَاتٌ عَامَّةٌ</li><li data-t="2.2">المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-amman" data-tr="fade" data-layout="title"><p class="speech">العَاصِمَةُ: عَمَّانُ</p><ol class="frags"><li data-t="0.5" class="t">عَمَّانُ</li></ol></div>
+  <div class="beat" data-scene="globe" data-geo="jordan frame" data-tr="rise"><p class="speech">المِسَاحَةُ: ثَمَانِيَةٌ وَثَمَانُونَ أَلْفًا وَسَبْعُمِئَةٍ وَسَبْعَةٌ وَثَمَانُونَ كِيلُومِتْرًا مُرَبَّعًا</p><ol class="frags"><li data-t="0.8">المِسَاحَةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-people" data-tr="fade"><p class="speech">عَدَدُ السُّكَّانِ: حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ (11.9 مِلْيُونَ)</p><ol class="frags"><li data-t="0.6">عَدَدُ السُّكَّانِ</li></ol></div>
+  <div class="beat" data-scene="v:s09-script" data-tr="wipe"><p class="speech">اللُّغَةُ الرَّسْمِيَّةُ: اللُّغَةُ العَرَبِيَّةُ</p><ol class="frags"><li data-t="0.6">اللُّغَةُ العَرَبِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="img:currency" data-tr="fade"><p class="speech">العُمْلَةُ: الدِّينَارُ الأُرْدُنِيُّ</p><ol class="frags"><li data-t="0.6">الدِّينَارُ الأُرْدُنِيُّ</li></ol></div>
+  <div class="beat" data-scene="v:m-flagpole" data-tr="fade"><p class="speech">نِظَامُ الحُكْمِ: مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</p><ol class="frags"><li data-t="0.6">مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</li></ol></div>
 </section>
 
 <section class="ch" id="flag" data-title="العَلَمُ الأُرْدُنِيُّ" data-mood="wind">
@@ -104,16 +115,6 @@
   <div class="beat" data-emb="arms"><p class="speech">الأَسْلِحَةُ التَّقْلِيدِيَّةُ: تُشِيرُ إِلَى الدِّفَاعِ وَالقُوَّةِ.</p></div>
   <div class="beat" data-emb="plants"><p class="speech">القَمْحُ وَسَعَفُ النَّخِيلِ: يَرْمُزَانِ إِلَى الزِّرَاعَةِ وَالخَيْرِ وَالازْدِهَارِ.</p></div>
   <div class="beat" data-emb="ribbon"><p class="speech">الشَّرِيطُ العَرَبِيُّ: يَحْمِلُ اسْمَ المَمْلَكَةِ الأُرْدُنِيَّةِ الهَاشِمِيَّةِ.</p></div>
-</section>
-
-<section class="ch" id="info" data-title="مَعْلُومَاتٌ عَامَّةٌ" data-mood="city">
-  <div class="beat" data-scene="v:s02-amman" data-tr="dissolve" data-layout="title"><p class="speech">الاسْمُ الرَّسْمِيُّ: المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</p><ol class="frags"><li data-t="0.8" class="t">المَمْلَكَةُ الأُرْدُنِيَّةُ الهَاشِمِيَّةُ</li></ol></div>
-  <div class="beat" data-scene="v:m-amman" data-tr="fade" data-layout="title"><p class="speech">العَاصِمَةُ: عَمَّانُ</p><ol class="frags"><li data-t="0.5" class="t">عَمَّانُ</li></ol></div>
-  <div class="beat" data-scene="globe" data-geo="jordan frame" data-tr="rise"><p class="speech">المِسَاحَةُ: ثَمَانِيَةٌ وَثَمَانُونَ أَلْفًا وَسَبْعُمِئَةٍ وَسَبْعَةٌ وَثَمَانُونَ كِيلُومِتْرًا مُرَبَّعًا</p><ol class="frags"><li data-t="0.8">المِسَاحَةُ</li></ol></div>
-  <div class="beat" data-scene="v:m-people" data-tr="fade"><p class="speech">عَدَدُ السُّكَّانِ: حَوَالَيْ إِحْدَى عَشَرَةَ نُقْطَة تسعة مَلْيُونَ نَسَمَةٍ (11.9 مِلْيُونَ)</p><ol class="frags"><li data-t="0.6">عَدَدُ السُّكَّانِ</li></ol></div>
-  <div class="beat" data-scene="v:s09-script" data-tr="wipe"><p class="speech">اللُّغَةُ الرَّسْمِيَّةُ: اللُّغَةُ العَرَبِيَّةُ</p><ol class="frags"><li data-t="0.6">اللُّغَةُ العَرَبِيَّةُ</li></ol></div>
-  <div class="beat" data-scene="img:currency" data-tr="fade"><p class="speech">العُمْلَةُ: الدِّينَارُ الأُرْدُنِيُّ</p><ol class="frags"><li data-t="0.6">الدِّينَارُ الأُرْدُنِيُّ</li></ol></div>
-  <div class="beat" data-scene="v:m-flagpole" data-tr="fade"><p class="speech">نِظَامُ الحُكْمِ: مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</p><ol class="frags"><li data-t="0.6">مَلَكِيَّةٌ دُسْتُورِيَّةٌ وِرَاثِيَّةٌ</li></ol></div>
 </section>
 
 <section class="ch" id="geo" data-title="المَوْقِعُ الجُغْرَافِيُّ وَالحُدُودُ" data-mood="space">
@@ -139,6 +140,23 @@
   <div class="beat" data-scene="v:m-petra"><p class="speech">وَيُؤَدِّي قِطَاعُ السِّيَاحَةِ دَوْرًا مُهِمًّا فِي الاقْتِصَادِ الأُرْدُنِيِّ بِسَبَبِ المَوَاقِعِ التَّارِيخِيَّةِ وَالطَّبِيعِيَّةِ المَشْهُورَةِ.</p></div>
 </section>
 
+<section class="ch" id="trade" data-title="الاِسْتِيرَادُ وَالتَّصْدِيرُ" data-mood="city">
+  <div class="beat" data-scene="v:s08-port" data-tr="fade" data-layout="title"><p class="speech">يَسْتَوْرِدُ الأُرْدُنُّ مِنَ الخَارِجِ أَكْثَرَ مِمَّا يُصَدِّرُ.</p><ol class="frags"><li data-t="0.6" class="t">الاِسْتِيرَادُ وَالتَّصْدِيرُ</li></ol></div>
+  <div class="beat" data-scene="v:s08-port" data-dim="1" data-layout="number"><p class="speech">فِي عَامِ أَلْفَيْنِ وَخَمْسَةٍ وَعِشْرِينَ بَلَغَ تَقْرِيبًا:</p><p class="speech">التَّصْدِيرُ: عَشَرَةُ نُقْطَة ثَمَانِيَةٌ وَخَمْسُونَ مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ.</p><ol class="frags"><li data-t="0.4" class="unit">التَّصْدِيرُ</li><li data-t="1.0" class="num">10.58</li><li data-t="1.8" class="unit">مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ</li></ol></div>
+  <div class="beat" data-scene="v:s08-port" data-dim="1" data-layout="number"><p class="speech">الاِسْتِيرَادُ: عِشْرُونَ نُقْطَة ثَلَاثَةٌ وَخَمْسُونَ مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ.</p><ol class="frags"><li data-t="0.4" class="unit">الاِسْتِيرَادُ</li><li data-t="1.0" class="num">20.53</li><li data-t="1.8" class="unit">مِلْيَارَ دِينَارٍ أُرْدُنِيٍّ</li></ol></div>
+  <div class="beat" data-scene="v:s08-port" data-layout="row"><p class="speech">وَمِنْ أَهَمِّ المُنْتَجَاتِ الَّتِي يُصَدِّرُهَا الأُرْدُنُّ:</p><p class="speech">المُنْتَجَاتُ الكِيمِيَائِيَّةُ؛</p><p class="speech">الأَسْمِدَةُ؛</p><p class="speech">المَلَابِسُ؛</p><p class="speech">المُنْتَجَاتُ الدَّوَائِيَّةُ؛</p><p class="speech">بَعْضُ المَوَارِدِ المَعْدِنِيَّةِ.</p><ol class="frags"><li data-t="0.6">المُنْتَجَاتُ الكِيمِيَائِيَّةُ</li><li data-t="1.8">الأَسْمِدَةُ</li><li data-t="3.0">المَلَابِسُ</li><li data-t="4.2">المُنْتَجَاتُ الدَّوَائِيَّةُ</li><li data-t="5.4" data-scene="v:m-deadsea">بَعْضُ المَوَارِدِ المَعْدِنِيَّةِ</li></ol></div>
+</section>
+
+<section class="ch" id="lang" data-title="اللُّغَةُ وَاللَّهَجَاتُ" data-mood="warm">
+  <div class="beat" data-scene="v:s09-script" data-tr="wipe" data-layout="title"><p class="speech">اللُّغَةُ الرَّسْمِيَّةُ فِي الأُرْدُنِّ هِيَ اللُّغَةُ العَرَبِيَّةُ.</p><ol class="frags"><li data-t="0.6" class="t">اللُّغَةُ وَاللَّهَجَاتُ</li><li data-t="2.6">اللُّغَةُ العَرَبِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="v:s14-amman" data-tr="fade"><p class="speech">وَتُسْتَخْدَمُ اللُّغَةُ الإِنْجِلِيزِيَّةُ أَيْضًا عَلَى نِطَاقٍ وَاسِعٍ، وَخَاصَّةً فِي التَّعْلِيمِ وَالأَعْمَالِ وَالتَّوَاصُلِ الدَّوْلِيِّ.</p><ol class="frags"><li data-t="0.8">اللُّغَةُ الإِنْجِلِيزِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="globe" data-geo="north" data-tr="rise"><p class="speech">وَتُوجَدُ فِي الأُرْدُنِّ عِدَّةُ لَهَجَاتٍ عَرَبِيَّةٍ، مِنْهَا:</p></div>
+  <div class="beat" data-layout="row"><p class="speech">اللَّهَجَةُ الشَّمَالِيَّةُ، المُنْتَشِرَةُ فِي مَنَاطِقَ مِثْلِ إِرْبِدَ وَجَرَّشَ وَعَجْلُونَ.</p><ol class="frags"><li data-t="0.6">اللَّهَجَةُ الشَّمَالِيَّةُ</li><li data-t="2.0" data-geo="north pin:irbid">إِرْبِدُ</li><li data-t="3.0" data-geo="north pin:irbid,jerash">جَرَشُ</li><li data-t="4.0" data-geo="north pin:irbid,jerash,ajloun">عَجْلُونُ</li></ol></div>
+  <div class="beat" data-layout="row"><p class="speech">اللَّهَجَةُ الحَضَرِيَّةُ، وَخَاصَّةً فِي عَمَّانَ وَالزَّرْقَاءِ.</p><ol class="frags"><li data-t="0.6">اللَّهَجَةُ الحَضَرِيَّةُ</li><li data-t="2.0" data-geo="north pin:amman">عَمَّانُ</li><li data-t="3.0" data-geo="north pin:amman,zarqa">الزَّرْقَاءُ</li></ol></div>
+  <div class="beat" data-scene="v:m-bedouin" data-tr="fade"><p class="speech">اللَّهَجَاتُ الجَنُوبِيَّةُ وَالبَدَوِيَّةُ، المُنْتَشِرَةُ فِي المَنَاطِقِ الجَنُوبِيَّةِ وَالشَّرْقِيَّةِ.</p><ol class="frags"><li data-t="0.8">اللَّهَجَاتُ الجَنُوبِيَّةُ وَالبَدَوِيَّةُ</li></ol></div>
+  <div class="beat" data-scene="v:m-people" data-tr="fade"><p class="speech">وَتَخْتَلِفُ اللَّهَجَاتُ الأُرْدُنِيَّةُ فِي بَعْضِ الكَلِمَاتِ وَالنُّطْقِ، لَكِنَّهَا تَنْتَمِي إِلَى مَجْمُوعَةِ اللَّهَجَاتِ العَرَبِيَّةِ الشَّامِيَّةِ وَالبَدَوِيَّةِ.</p></div>
+</section>
+
 <section class="ch" id="culture" data-title="الثَّقَافَةُ وَالتَّقَالِيدُ" data-mood="warm">
   <div class="beat" data-scene="v:s10-coffee" data-tr="dissolve" data-layout="title"><p class="speech">وَنُوَاصِلُ الْحَدِيثَ عَنِ الثَّقَافَةِ وَالتَّقَالِيدِ فِي الْأُرْدُنِّ.</p><ol class="frags"><li data-t="0.8" class="t">الثَّقَافَةُ وَالتَّقَالِيدُ</li></ol></div>
   <div class="beat" data-scene="v:m-bedouin" data-tr="fade"><p class="speech">تَجْمَعُ الثَّقَافَةُ الْأُرْدُنِيَّةُ بَيْنَ التَّقَالِيدِ الْعَرَبِيَّةِ وَالْإِسْلَامِيَّةِ وَالْبَدَوِيَّةِ.</p></div>
@@ -156,13 +174,25 @@
   <div class="beat" data-tr="iris" data-layout="row"><p class="speech">كَمَا تَشْتَهِرُ الْمَمْلَكَةُ بِالْحُمُّصِ وَالْفَلَافِلِ وَالْمَقْلُوبَةِ.</p><ol class="frags"><li data-t="0.6" data-scene="v:s12-mezze">الْحُمُّصُ</li><li data-t="2.8" data-scene="img:falafel">الْفَلَافِلُ</li><li data-t="5.0" data-scene="img:maqluba">الْمَقْلُوبَةُ</li></ol></div>
 </section>
 
-<section class="ch" id="places" data-title="أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ" data-mood="desert">
-  <div class="beat" data-scene="globe" data-geo="jordan pin:petra,rum,deadsea,jerash,amman" data-tr="haze" data-layout="title"><p class="speech">وَالْآنَ، نَنْتَقِلُ إِلَى أَهَمِّ الْمَعَالِمِ:</p><ol class="frags"><li data-t="0.6" class="t">أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ</li></ol></div>
+<section class="ch" id="petra" data-title="الْبَتْرَاءُ" data-mood="desert">
+  <div class="beat" data-scene="globe" data-geo="jordan pin:petra,amman,jerash,rum,deadsea" data-tr="haze" data-layout="title"><p class="speech">وَالْآنَ، نَنْتَقِلُ إِلَى أَهَمِّ الْمَعَالِمِ:</p><ol class="frags"><li data-t="0.6" class="t">أَشْهَرُ الْأَمَاكِنِ السِّيَاحِيَّةِ</li></ol></div>
   <div class="beat" data-scene="v:m-petra" data-tr="fade" data-layout="place"><p class="speech">الْبَتْرَاءُ: الْمَدِينَةُ الْوَرَدِيَّةُ التَّارِيخِيَّةُ.</p><ol class="frags"><li data-t="6.2" class="t">الْبَتْرَاءُ</li><li data-t="7.2">الْمَدِينَةُ الْوَرْدِيَّةُ التَّارِيخِيَّةُ.</li></ol></div>
-  <div class="beat" data-scene="v:m-rum" data-tr="wipe" data-layout="place"><p class="speech">وَادِي رَمٍّ: الصَّحْرَاءُ الْخَلَّابَةُ.</p><ol class="frags"><li data-t="2.8" class="t">وَادِي رَمٍّ</li><li data-t="3.8">الصَّحْرَاءُ الْخَلَّابَةُ.</li></ol></div>
-  <div class="beat" data-scene="v:m-deadsea" data-tr="fade" data-layout="place"><p class="speech">الْبَحْرُ الْمَيِّتُ: أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الْأَرْضِ.</p><ol class="frags"><li data-t="2.8" class="t">الْبَحْرُ الْمَيِّتُ</li><li data-t="3.8">أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الأَرْضِ.</li></ol></div>
-  <div class="beat" data-scene="v:m-jerash" data-tr="pan" data-layout="place"><p class="speech">جَرَشُ: الْمَدِينَةُ الرُّومَانِيَّةُ الْأَثَرِيَّةُ.</p><ol class="frags"><li data-t="2.8" class="t">جَرَشُ</li><li data-t="3.8">الْمَدِينَةُ الرُّومَانِيَّةُ الأَثَرِيَّةُ.</li></ol></div>
+</section>
+
+<section class="ch" id="amman" data-title="عَمَّانُ" data-mood="city">
   <div class="beat" data-scene="v:m-amman" data-tr="zoom" data-layout="place"><p class="speech">عَمَّانُ: الْعَاصِمَةُ الْحَدِيثَةُ.</p><ol class="frags"><li data-t="2.8" class="t">عَمَّانُ</li><li data-t="3.8">الْعَاصِمَةُ الْحَدِيثَةُ.</li><li data-t="5.8" data-scene="img:ammandusk"></li><li data-t="8.4" data-scene="img:ammannight"></li></ol></div>
+</section>
+
+<section class="ch" id="jerash" data-title="جَرَشُ" data-mood="desert">
+  <div class="beat" data-scene="v:m-jerash" data-tr="pan" data-layout="place"><p class="speech">جَرَشُ: الْمَدِينَةُ الرُّومَانِيَّةُ الْأَثَرِيَّةُ.</p><ol class="frags"><li data-t="2.8" class="t">جَرَشُ</li><li data-t="3.8">الْمَدِينَةُ الرُّومَانِيَّةُ الأَثَرِيَّةُ.</li></ol></div>
+</section>
+
+<section class="ch" id="rum" data-title="وَادِي رَمٍّ" data-mood="desert">
+  <div class="beat" data-scene="v:m-rum" data-tr="wipe" data-layout="place"><p class="speech">وَادِي رَمٍّ: الصَّحْرَاءُ الْخَلَّابَةُ.</p><ol class="frags"><li data-t="2.8" class="t">وَادِي رَمٍّ</li><li data-t="3.8">الصَّحْرَاءُ الْخَلَّابَةُ.</li></ol></div>
+</section>
+
+<section class="ch" id="deadsea" data-title="الْبَحْرُ الْمَيِّتُ" data-mood="desert">
+  <div class="beat" data-scene="v:m-deadsea" data-tr="fade" data-layout="place"><p class="speech">الْبَحْرُ الْمَيِّتُ: أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الْأَرْضِ.</p><ol class="frags"><li data-t="2.8" class="t">الْبَحْرُ الْمَيِّتُ</li><li data-t="3.8">أَخْفَضُ نُقْطَةٍ عَلَى سَطْحِ الأَرْضِ.</li></ol></div>
 </section>
 
 <section class="ch" id="facts" data-title="حَقَائِقُ مُثِيرَةٌ" data-mood="desert">
