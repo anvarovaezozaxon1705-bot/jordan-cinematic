@@ -67,7 +67,7 @@
       if (n) star = { u: sx / n / 2048, v: 1 - sy / n / 1024 };
       const tex = new T.CanvasTexture(cv); tex.anisotropy = 8; cb(tex);
     };
-    const img = new Image();
+    const img = new Image(); img.crossOrigin = 'anonymous'; // the page may load its files from a CDN
     img.onload = () => { g.drawImage(img, 0, 0, 2048, 1024); done(); };
     img.onerror = () => { // fallback drawing (same geometry as the official flag)
       [['#000', 0], ['#fff', 1], ['#007a3d', 2]].forEach(([c, i]) => { g.fillStyle = c; g.fillRect(0, i * 1024 / 3, 2048, 1024 / 3 + 1); });
