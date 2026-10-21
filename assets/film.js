@@ -11,8 +11,9 @@
   const AR = (n) => String(n).padStart(2, '0').replace(/\d/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]);
 
   /* ---------- media ---------- */
-  const V = (f, poster) => ({ type: 'video', src: `assets/video/${f}.mp4`, poster: `assets/img/${poster || f}.jpg` });
-  const I = (f, kb) => ({ type: 'image', src: `assets/img/${f}`, kb: kb || 'in' });
+  const ROOT = window.JORDAN_ROOT || ''; // where the media files live (empty: next to the page)
+  const V = (f, poster) => ({ type: 'video', src: `${ROOT}assets/video/${f}.mp4`, poster: `${ROOT}assets/img/${poster || f}.jpg` });
+  const I = (f, kb) => ({ type: 'image', src: `${ROOT}assets/img/${f}`, kb: kb || 'in' });
   const MEDIA = {
     's02-amman': V('s02-amman', 's02'), 's03-flag': V('s03-flag', 's03'), 's04-deadsea': V('s04-deadsea', 's04'),
     's07-souk': V('s07-souk', 's07'), 's08-port': V('s08-port', 's08'), 's09-script': V('s09-script', 's09'),
@@ -69,7 +70,7 @@
       v.addEventListener('error', () => {
         const img = document.createElement('img'); img.alt = ''; img.className = 'kb-in' + (v.classList.contains('cur') ? ' cur' : '');
         img.onerror = () => { img.remove(); wrap.classList.add('is-missing'); };
-        img.src = v.poster || 'assets/img/s05.jpg';
+        img.src = v.poster || ROOT + 'assets/img/s05.jpg';
         v.replaceWith(img); items[i] = img;
         if (r.active && r.idx === i && items.length > 1) r.timer = setTimeout(() => { if (r.active && r.idx === i) playAt(r, (i + 1) % items.length); }, 5000);
       });
@@ -229,6 +230,7 @@
   }, { passive: true });
   window.addEventListener('resize', () => { layout(); if (globeOK) window.JGlobe.resize(); });
   window.addEventListener('load', layout);
+  if (document.fonts) document.fonts.ready.then(layout);
   function goBeat(i, instant) {
     i = Math.max(0, Math.min(beats.length - 1, i));
     const smooth = !(instant || reduceMotion);
@@ -284,7 +286,7 @@
     const first = beats.find((b) => b.ch === ci);
     const key = first.scene.replace(/^(v|img):/, '').split('+')[0];
     const m = MEDIA[key];
-    const poster = m ? (m.poster || m.src) : 'assets/img/s05.jpg';
+    const poster = m ? (m.poster || m.src) : ROOT + 'assets/img/s05.jpg';
     const li = document.createElement('li');
     li.innerHTML = `<a href="#${ch.id}"><img src="${poster}" alt="" loading="lazy"><span class="lbl"><b></b><span></span></span></a>`;
     li.querySelector('b').textContent = ch._n ? AR(ch._n) : '';

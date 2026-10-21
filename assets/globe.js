@@ -2,6 +2,7 @@
    Exposes window.JGlobe = { init, setVisible, go, resize } */
 (() => {
   'use strict';
+  const ROOT = window.JORDAN_ROOT || ''; // where the globe files live (empty: next to the page)
   const T = window.THREE;
   if (!T) { window.JGlobe = null; return; }
 
@@ -57,14 +58,14 @@
     camera = new T.PerspectiveCamera(38, 1, 0.001, 100);
 
     const loader = new T.TextureLoader();
-    const tex = loader.load('assets/globe/earth-4k.jpg');
+    const tex = loader.load(ROOT + 'assets/globe/earth-4k.jpg');
     tex.anisotropy = 8;
     const mat = new T.MeshPhongMaterial({ map: tex, shininess: 8, specular: new T.Color(0x222222) });
     earth = new T.Mesh(new T.SphereGeometry(R, 128, 96), mat);
     scene.add(earth);
 
     // high-resolution patch over the Levant (lon 30–42E, lat 26–37N), NASA Blue Marble 500 m
-    const hiTex = loader.load('assets/globe/levant-hi.jpg');
+    const hiTex = loader.load(ROOT + 'assets/globe/levant-hi.jpg');
     hiTex.anisotropy = 8;
     // feathered edges so the sharper patch blends into the base globe
     const fc = document.createElement('canvas'); fc.width = fc.height = 256;
@@ -114,7 +115,7 @@
     scene.add(sun);
     scene.userData.sun = sun;
 
-    fetch('assets/globe/borders.json').then((r) => r.json()).then((data) => { borderData = data; buildBorders(); drawOverlay(); }).catch(() => {});
+    fetch(ROOT + 'assets/globe/borders.json').then((r) => r.json()).then((data) => { borderData = data; buildBorders(); drawOverlay(); }).catch(() => {});
 
     // DOM pins
     if (labelsEl) {

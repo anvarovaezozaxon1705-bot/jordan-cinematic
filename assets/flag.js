@@ -76,7 +76,7 @@
       for (let k = 0; k < 14; k++) { const r = k % 2 ? 50 : 120, a = -Math.PI / 2 + k * Math.PI / 7; g.lineTo(340 + r * Math.cos(a), 512 + r * Math.sin(a)); }
       g.closePath(); g.fill(); done();
     };
-    img.src = 'assets/img/flag-jordan.png';
+    img.src = (window.JORDAN_ROOT || '') + 'assets/img/flag-jordan.png';
   }
 
   function init(canvas) {
