@@ -202,7 +202,8 @@
       $('#dock-cur').textContent = AR(ch._n || (ch.id === 'prologue' ? 0 : sections));
       $$('.index-grid li').forEach((li, k) => li.classList.toggle('is-current', k === b.ch));
       if (window.JSound) window.JSound.mood(ch.dataset.mood || 'space');
-      if (history.replaceState) history.replaceState(null, '', `#${ch.id}`);
+      // full URL: a <base> pointing elsewhere must not redirect the hash
+      try { history.replaceState(null, '', location.pathname + location.search + '#' + ch.id); } catch (e) { /* not allowed here */ }
     }
     $('.progress__bar').style.transform = `scaleX(${(i / (beats.length - 1)).toFixed(4)})`;
     notes.textContent = b.speech;
